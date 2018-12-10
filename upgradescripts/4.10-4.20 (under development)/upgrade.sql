@@ -111,16 +111,16 @@ set @resources='
     <Value>Failed to add vendor note.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.SpecificationAttributes.Alert.FailedAdd">
-    <Value>Failed to add specification attribute.</Value>
+    <Value></Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Currencies.Alert.Error">
     <Value>Failed to update currency.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.SpecificationAttributes.Alert.SelectOption">
-    <Value>Select specification attribute option.</Value>
+    <Value></Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.SpecificationAttributes.Alert.NoAttributeOptions">
-    <Value>First, please create at least one specification attribute option</Value>
+    <Value></Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.FailedToSave">
     <Value></Value>
@@ -229,7 +229,19 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Import.StoresDontExist">
     <Value>Stores with the following names and/or IDs don''t exist: {0}</Value>
-  </LocaleResource> 
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Payments.Square.Fields.Location.Select">
+    <Value>Select location</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.ShoppingCart.GroupTierPricesForDistinctShoppingCartItems">
+    <Value>Group tier prices for distinct shopping cart items</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.ShoppingCart.GroupTierPricesForDistinctShoppingCartItems.Hint">
+    <Value>Allows to offer special prices when customers buy bigger amounts of a particular product. For example, when a customer could have two shopping cart items for the same products (different product attributes).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Checkout.Addresses.Invalid">
+    <Value>You have {0} invalid address(es)</Value>
+  </LocaleResource>  
 </Language>
 '
 
