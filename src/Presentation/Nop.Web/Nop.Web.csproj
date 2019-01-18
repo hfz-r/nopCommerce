@@ -29,6 +29,8 @@
     <Content Update="App_Data\DataProtectionKeys\*.xml" CopyToPublishDirectory="Never" />
 
     <Compile Remove="Plugins\**" />
+
+    <Content Remove="Plugins\Nop.Plugin.Api\**" />
     <EmbeddedResource Remove="Plugins\**" />
     <None Remove="Plugins\**" />
 
@@ -40,6 +42,16 @@
 
     <!-- We copy the \Logs directory -->
     <Content Include="Logs\**" CopyToPublishDirectory="PreserveNewest" />
+    <Content Remove="Plugins\Nop.Plugin.Api\IdentityModel.AspNetCore.OAuth2Introspection.dll" />
+    <Content Remove="Plugins\Nop.Plugin.Api\IdentityModel.dll" />
+    <Content Remove="Plugins\Nop.Plugin.Api\IdentityServer4.AccessTokenValidation.dll" />
+    <Content Remove="Plugins\Nop.Plugin.Api\IdentityServer4.dll" />
+    <Content Remove="Plugins\Nop.Plugin.Api\IdentityServer4.EntityFramework.dll" />
+    <Content Remove="Plugins\Nop.Plugin.Api\IdentityServer4.EntityFramework.Storage.dll" />
+    <Content Remove="Plugins\Nop.Plugin.Api\IdentityServer4.Storage.dll" />
+    <Content Remove="Plugins\Nop.Plugin.Api\logo.jpg" />
+    <Content Remove="Plugins\Nop.Plugin.Api\Nop.Plugin.Api.dll" />
+    <Content Remove="Plugins\Nop.Plugin.Api\Nop.Plugin.Api.pdb" />
 
     <None Update="Areas\Admin\sitemap.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
