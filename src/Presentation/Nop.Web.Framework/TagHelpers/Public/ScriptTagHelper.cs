@@ -66,7 +66,6 @@ namespace Nop.Web.Framework.TagHelpers.Public
                 Convert.ToBoolean(_httpContextAccessor.HttpContext.Items["nop.IgnoreScriptTagLocation"]))
                 return;
 
-            //contextualize IHtmlHelper
             var viewContextAware = _htmlHelper as IViewContextAware;
             viewContextAware?.Contextualize(ViewContext);
 

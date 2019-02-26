@@ -1,4 +1,7 @@
-﻿namespace Nop.Plugin.Api.Attributes
+﻿using Nop.Core.Infrastructure;
+using Nop.Services.Plugins;
+
+namespace Nop.Plugin.Api.Attributes
 {
     using Microsoft.AspNetCore.Authorization;
     using Core.Plugins;
@@ -23,17 +26,27 @@
             get => base.AuthenticationSchemes;
             set => base.AuthenticationSchemes = GetAuthenticationSchemeName(value);
         }
-        
+
+        //private static string GetAuthenticationSchemeName(string value)
+        //{
+        //    var pluginInstalled = PluginManager.FindPlugin(typeof(ApiStartup))?.Installed ?? false;
+
+        //    if (pluginInstalled)
+        //    {
+        //        return value;
+        //    }
+
+        //    return default(string);
+        //}
+
         private static string GetAuthenticationSchemeName(string value)
         {
-            var pluginInstalled = PluginManager.FindPlugin(typeof(ApiStartup))?.Installed ?? false;
+            var plugins = EngineContext.Current.Resolve<IPluginService>();
+            var findPlugin = plugins.FindPluginByTypeInAssembly(typeof(ApiStartup));
+            var pluginInstalled = findPlugin.PluginDescriptor?.Installed ?? false;
 
-            if (pluginInstalled)
-            {
-                return value;
-            }
-
-            return default(string);
+            return pluginInstalled ? value : default(string);
         }
+
     }
 }

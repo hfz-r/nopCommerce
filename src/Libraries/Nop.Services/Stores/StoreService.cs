@@ -189,7 +189,7 @@ namespace Nop.Services.Stores
         /// <param name="store">Store</param>
         /// <param name="host">Host</param>
         /// <returns>true - contains, false - no</returns>
-        public virtual bool ContainsHostValue(Store store, string host)
+        public bool ContainsHostValue(Store store, string host)
         {
             if (store == null)
                 throw new ArgumentNullException(nameof(store));

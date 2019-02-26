@@ -22,7 +22,7 @@ namespace Nop.Plugin.Api.Services
         {
             _configurationDbContext = configurationDbContext;
         }
-        
+
         public IList<ClientApiModel> GetAllClients()
         {
             IQueryable<Client> clientsQuery = _configurationDbContext.Clients
@@ -35,7 +35,7 @@ namespace Nop.Plugin.Api.Services
 
             return clientApiModels;
         }
-        
+
         public int InsertClient(ClientApiModel model)
         {
             if (model == null)
@@ -56,7 +56,7 @@ namespace Nop.Plugin.Api.Services
 
             AddOrUpdateClientSecret(client, model.ClientSecret);
             AddOrUpdateClientRedirectUrl(client, model.RedirectUrl);
-            
+
             client.AllowedGrantTypes = new List<ClientGrantType>
             {
                 new ClientGrantType
@@ -99,7 +99,6 @@ namespace Nop.Plugin.Api.Services
                     Type = JwtClaimTypes.Name,
                     Value = client.ClientName
                 }
-
             };
 
             _configurationDbContext.Clients.Add(client);
@@ -116,6 +115,8 @@ namespace Nop.Plugin.Api.Services
             }
 
             var currentClient = _configurationDbContext.Clients
+                .Include(client => client.ClientSecrets)
+                .Include(client => client.RedirectUris)
                 .FirstOrDefault(client => client.Id == model.Id);
 
             if (currentClient == null)
@@ -169,7 +170,7 @@ namespace Nop.Plugin.Api.Services
                 _configurationDbContext.SaveChanges();
             }
         }
-        
+
         private void AddOrUpdateClientRedirectUrl(Client currentClient, string modelRedirectUrl)
         {
             // Ensure the client redirect url collection is not null
