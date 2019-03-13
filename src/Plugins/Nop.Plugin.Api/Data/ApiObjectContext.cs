@@ -16,6 +16,10 @@ namespace Nop.Plugin.Api.Data
         {
         }
 
+        public ApiObjectContext()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new WebHooksMap());

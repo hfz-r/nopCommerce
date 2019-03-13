@@ -94,7 +94,7 @@
         <input type="submit" id="btnRefreshCategories" style="display: none" />
         <script>
             $(document).ready(function() {
-                $('#btnRefreshCategories').click(function() {
+                $('#btnRefreshCategories').click(function () {
                     //refresh grid
                     var grid = $("#categories-grid").data('kendoGrid');
                     grid.dataSource.read();
