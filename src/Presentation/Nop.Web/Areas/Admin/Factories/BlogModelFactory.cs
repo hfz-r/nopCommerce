@@ -14,6 +14,7 @@ using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Blogs;
 using Nop.Web.Framework.Extensions;
 using Nop.Web.Framework.Factories;
+using Nop.Web.Framework.Models.Extensions;
 
 namespace Nop.Web.Areas.Admin.Factories
 {
@@ -60,13 +61,14 @@ namespace Nop.Web.Areas.Admin.Factories
         }
 
         #endregion
-
+        
         #region Methods
 
         /// <summary>
         /// Prepare blog content model
         /// </summary>
         /// <param name="blogContentModel">Blog content model</param>
+        /// <param name="filterByBlogPostId">Blog post ID</param>
         /// <returns>Blog content model</returns>
         public virtual BlogContentModel PrepareBlogContentModel(BlogContentModel blogContentModel, int? filterByBlogPostId)
         {
@@ -111,15 +113,15 @@ namespace Nop.Web.Areas.Admin.Factories
         {
             if (searchModel == null)
                 throw new ArgumentNullException(nameof(searchModel));
-            
+
             //get blog posts
             var blogPosts = _blogService.GetAllBlogPosts(searchModel.SearchStoreId, showHidden: true,
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare list model
-            var model = new BlogPostListModel
+            var model = new BlogPostListModel().PrepareToGrid(searchModel, blogPosts, () =>
             {
-                Data = blogPosts.Select(blogPost =>
+                return blogPosts.Select(blogPost =>
                 {
                     //fill in model values from the entity
                     var blogPostModel = blogPost.ToModel<BlogPostModel>();
@@ -141,9 +143,8 @@ namespace Nop.Web.Areas.Admin.Factories
                     blogPostModel.SeName = _urlRecordService.GetSeName(blogPost, blogPost.LanguageId, true, false);
 
                     return blogPostModel;
-                }),
-                Total = blogPosts.TotalCount
-            };
+                });
+            });
 
             return model;
         }
@@ -228,7 +229,7 @@ namespace Nop.Web.Areas.Admin.Factories
         {
             if (searchModel == null)
                 throw new ArgumentNullException(nameof(searchModel));
-            
+
             //get parameters to filter comments
             var createdOnFromValue = searchModel.CreatedOnFrom == null ? null
                 : (DateTime?)_dateTimeHelper.ConvertToUtcTime(searchModel.CreatedOnFrom.Value, _dateTimeHelper.CurrentTimeZone);
@@ -241,7 +242,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 approved: isApprovedOnly,
                 fromUtc: createdOnFromValue,
                 toUtc: createdOnToValue,
-                commentText: searchModel.SearchText);
+                commentText: searchModel.SearchText).ToPagedList(searchModel);
 
             //prepare store names (to avoid loading for each comment)
             var storeNames = _storeService.GetAllStores().ToDictionary(store => store.Id, store => store.Name);
@@ -249,7 +250,7 @@ namespace Nop.Web.Areas.Admin.Factories
             //prepare list model
             var model = new BlogCommentListModel
             {
-                Data = comments.PaginationByRequestModel(searchModel).Select(blogComment =>
+                Data = comments.Select(blogComment =>
                 {
                     //fill in model values from the entity
                     var commentModel = blogComment.ToModel<BlogCommentModel>();
@@ -263,7 +264,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
                     return commentModel;
                 }),
-                Total = comments.Count
+                Total = comments.TotalCount
             };
 
             return model;

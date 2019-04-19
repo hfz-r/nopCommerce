@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Domain.Stores;
 using Nop.Services.Localization;
 using Nop.Services.Stores;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Stores;
-using Nop.Web.Framework.Extensions;
 using Nop.Web.Framework.Factories;
+using Nop.Web.Framework.Models.DataTables;
+using Nop.Web.Framework.Models.Extensions;
 
 namespace Nop.Web.Areas.Admin.Factories
 {
@@ -38,7 +40,7 @@ namespace Nop.Web.Areas.Admin.Factories
         }
 
         #endregion
-
+        
         #region Methods
 
         /// <summary>
@@ -68,15 +70,14 @@ namespace Nop.Web.Areas.Admin.Factories
                 throw new ArgumentNullException(nameof(searchModel));
 
             //get stores
-            var stores = _storeService.GetAllStores(loadCacheableCopy: false);
+            var stores = _storeService.GetAllStores(loadCacheableCopy: false).ToPagedList(searchModel);
 
             //prepare list model
-            var model = new StoreListModel
+            var model = new StoreListModel().PrepareToGrid(searchModel, stores, () =>
             {
                 //fill in model values from the entity
-                Data = stores.PaginationByRequestModel(searchModel).Select(store => store.ToModel<StoreModel>()),
-                Total = stores.Count
-            };
+                return stores.Select(store => store.ToModel<StoreModel>());
+            });
 
             return model;
         }

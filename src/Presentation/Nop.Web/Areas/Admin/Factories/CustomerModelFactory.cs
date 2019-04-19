@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
+using Newtonsoft.Json;
 using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
@@ -31,8 +34,9 @@ using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Common;
 using Nop.Web.Areas.Admin.Models.Customers;
 using Nop.Web.Areas.Admin.Models.ShoppingCart;
-using Nop.Web.Framework.Extensions;
 using Nop.Web.Framework.Factories;
+using Nop.Web.Framework.Models.DataTables;
+using Nop.Web.Framework.Models.Extensions;
 
 namespace Nop.Web.Areas.Admin.Factories
 {
@@ -51,6 +55,7 @@ namespace Nop.Web.Areas.Admin.Factories
         private readonly IAddressAttributeFormatter _addressAttributeFormatter;
         private readonly IAddressAttributeModelFactory _addressAttributeModelFactory;
         private readonly IAffiliateService _affiliateService;
+        private readonly IAuthenticationPluginManager _authenticationPluginManager;
         private readonly IBackInStockSubscriptionService _backInStockSubscriptionService;
         private readonly IBaseAdminModelFactory _baseAdminModelFactory;
         private readonly ICustomerActivityService _customerActivityService;
@@ -58,7 +63,6 @@ namespace Nop.Web.Areas.Admin.Factories
         private readonly ICustomerAttributeService _customerAttributeService;
         private readonly ICustomerService _customerService;
         private readonly IDateTimeHelper _dateTimeHelper;
-        private readonly IExternalAuthenticationService _externalAuthenticationService;
         private readonly IGdprService _gdprService;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IGeoLookupService _geoLookupService;
@@ -89,6 +93,7 @@ namespace Nop.Web.Areas.Admin.Factories
             IAddressAttributeFormatter addressAttributeFormatter,
             IAddressAttributeModelFactory addressAttributeModelFactory,
             IAffiliateService affiliateService,
+            IAuthenticationPluginManager authenticationPluginManager,
             IBackInStockSubscriptionService backInStockSubscriptionService,
             IBaseAdminModelFactory baseAdminModelFactory,
             ICustomerActivityService customerActivityService,
@@ -96,7 +101,6 @@ namespace Nop.Web.Areas.Admin.Factories
             ICustomerAttributeService customerAttributeService,
             ICustomerService customerService,
             IDateTimeHelper dateTimeHelper,
-            IExternalAuthenticationService externalAuthenticationService,
             IGdprService gdprService,
             IGenericAttributeService genericAttributeService,
             IGeoLookupService geoLookupService,
@@ -123,6 +127,7 @@ namespace Nop.Web.Areas.Admin.Factories
             _addressAttributeFormatter = addressAttributeFormatter;
             _addressAttributeModelFactory = addressAttributeModelFactory;
             _affiliateService = affiliateService;
+            _authenticationPluginManager = authenticationPluginManager;
             _backInStockSubscriptionService = backInStockSubscriptionService;
             _baseAdminModelFactory = baseAdminModelFactory;
             _customerActivityService = customerActivityService;
@@ -130,7 +135,6 @@ namespace Nop.Web.Areas.Admin.Factories
             _customerAttributeService = customerAttributeService;
             _customerService = customerService;
             _dateTimeHelper = dateTimeHelper;
-            _externalAuthenticationService = externalAuthenticationService;
             _gdprService = gdprService;
             _genericAttributeService = genericAttributeService;
             _geoLookupService = geoLookupService;
@@ -186,7 +190,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
             foreach (var record in customer.ExternalAuthenticationRecords)
             {
-                var method = _externalAuthenticationService.LoadExternalAuthenticationMethodBySystemName(record.ProviderSystemName);
+                var method = _authenticationPluginManager.LoadPluginBySystemName(record.ProviderSystemName);
                 if (method == null)
                     continue;
 
@@ -249,39 +253,39 @@ namespace Nop.Web.Areas.Admin.Factories
                         case AttributeControlType.DropdownList:
                         case AttributeControlType.RadioList:
                         case AttributeControlType.Checkboxes:
+                        {
+                            if (!string.IsNullOrEmpty(selectedCustomerAttributes))
                             {
-                                if (!string.IsNullOrEmpty(selectedCustomerAttributes))
-                                {
-                                    //clear default selection
-                                    foreach (var item in attributeModel.Values)
-                                        item.IsPreSelected = false;
+                                //clear default selection
+                                foreach (var item in attributeModel.Values)
+                                    item.IsPreSelected = false;
 
-                                    //select new values
-                                    var selectedValues = _customerAttributeParser.ParseCustomerAttributeValues(selectedCustomerAttributes);
-                                    foreach (var attributeValue in selectedValues)
-                                        foreach (var item in attributeModel.Values)
-                                            if (attributeValue.Id == item.Id)
-                                                item.IsPreSelected = true;
-                                }
+                                //select new values
+                                var selectedValues = _customerAttributeParser.ParseCustomerAttributeValues(selectedCustomerAttributes);
+                                foreach (var attributeValue in selectedValues)
+                                    foreach (var item in attributeModel.Values)
+                                        if (attributeValue.Id == item.Id)
+                                            item.IsPreSelected = true;
                             }
-                            break;
+                        }
+                        break;
                         case AttributeControlType.ReadonlyCheckboxes:
-                            {
-                                //do nothing
-                                //values are already pre-set
-                            }
-                            break;
+                        {
+                            //do nothing
+                            //values are already pre-set
+                        }
+                        break;
                         case AttributeControlType.TextBox:
                         case AttributeControlType.MultilineTextbox:
+                        {
+                            if (!string.IsNullOrEmpty(selectedCustomerAttributes))
                             {
-                                if (!string.IsNullOrEmpty(selectedCustomerAttributes))
-                                {
-                                    var enteredText = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
-                                    if (enteredText.Any())
-                                        attributeModel.DefaultValue = enteredText[0];
-                                }
+                                var enteredText = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
+                                if (enteredText.Any())
+                                    attributeModel.DefaultValue = enteredText[0];
                             }
-                            break;
+                        }
+                        break;
                         case AttributeControlType.Datepicker:
                         case AttributeControlType.ColorSquares:
                         case AttributeControlType.ImageSquares:
@@ -414,6 +418,76 @@ namespace Nop.Web.Areas.Admin.Factories
         }
 
         /// <summary>
+        /// Prepare datatables model
+        /// </summary>
+        /// <param name="searchModel">Search model</param>
+        /// <returns>Datatables model</returns>
+        protected virtual DataTablesModel PrepareCustomerAddressGridModel(CustomerAddressSearchModel searchModel)
+        {
+            //prepare common properties
+            var model = new DataTablesModel
+            {
+                Name = "customer-addresses-grid",
+                UrlRead = new DataUrl("AddressesSelect", "Customer", null),
+                UrlDelete = new DataUrl("AddressDelete", "Customer", new RouteValueDictionary { [nameof(searchModel.CustomerId)] = searchModel.CustomerId }),
+                Length = searchModel.PageSize,
+                LengthMenu = searchModel.AvailablePageSizes
+            };
+
+            //prepare filters to search
+            model.Filters = new List<FilterParameter>
+            {
+                new FilterParameter(nameof(searchModel.CustomerId), searchModel.CustomerId)
+            };
+
+            //prepare model columns
+            model.ColumnCollection = new List<ColumnProperty>
+            {
+                new ColumnProperty(nameof(AddressModel.FirstName))
+                {
+                    Title = _localizationService.GetResource("Admin.Address.Fields.FirstName")
+                },
+                new ColumnProperty(nameof(AddressModel.LastName))
+                {
+                    Title = _localizationService.GetResource("Admin.Address.Fields.LastName")
+                },
+                new ColumnProperty(nameof(AddressModel.Email))
+                {
+                    Title = _localizationService.GetResource("Admin.Address.Fields.Email")
+                },
+                new ColumnProperty(nameof(AddressModel.PhoneNumber))
+                {
+                    Title = _localizationService.GetResource("Admin.Address.Fields.PhoneNumber")
+                },
+                new ColumnProperty(nameof(AddressModel.FaxNumber))
+                {
+                    Title = _localizationService.GetResource("Admin.Address.Fields.FaxNumber")
+                },
+                new ColumnProperty(nameof(AddressModel.AddressHtml))
+                {
+                    Title = _localizationService.GetResource("Admin.Address"),
+                    Encode = false
+                },
+                new ColumnProperty(nameof(AddressModel.Id))
+                {
+                    Title = _localizationService.GetResource("Admin.Common.Edit"),
+                    Width = "100",
+                    ClassName =  StyleColumn.ButtonStyle,
+                    Render = new RenderButtonEdit(new DataUrl("~/Admin/Customer/AddressEdit?customerId=" + searchModel.CustomerId + "&addressid=", true))
+                },
+                new ColumnProperty(nameof(AddressModel.Id))
+                {
+                    Title = _localizationService.GetResource("Admin.Common.Delete"),
+                    Width = "100",
+                    Render = new RenderButtonRemove(_localizationService.GetResource("Admin.Common.Delete")) { Style = StyleButton.Default },
+                    ClassName =  StyleColumn.ButtonStyle
+                }
+            };
+
+            return model;
+        }
+
+        /// <summary>
         /// Prepare customer address search model
         /// </summary>
         /// <param name="searchModel">Customer address search model</param>
@@ -431,6 +505,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
             //prepare page parameters
             searchModel.SetGridPageSize();
+            searchModel.Grid = PrepareCustomerAddressGridModel(searchModel);
 
             return searchModel;
         }
@@ -453,6 +528,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
             //prepare page parameters
             searchModel.SetGridPageSize();
+            searchModel.Grid = PrepareOrderGridModel(searchModel);
 
             return searchModel;
         }
@@ -525,10 +601,333 @@ namespace Nop.Web.Areas.Admin.Factories
 
             //prepare page parameters
             searchModel.SetGridPageSize();
+            searchModel.Grid = PrepareCustomerBackInStockSubscriptionGridModel(searchModel);
 
             return searchModel;
         }
 
+        /// <summary>
+        /// Prepare customer back in stock subscriptions search model
+        /// </summary>
+        /// <param name="searchModel">Customer back in stock subscriptions search model</param>
+        /// <param name="customer">Customer</param>
+        /// <returns>Customer back in stock subscriptions search model</returns>
+        protected virtual CustomerAssociatedExternalAuthRecordsSearchModel PrepareCustomerAssociatedExternalAuthRecordsSearchModel(
+            CustomerAssociatedExternalAuthRecordsSearchModel searchModel, Customer customer)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+            if (customer == null)
+                throw new ArgumentNullException(nameof(customer));
+
+            searchModel.CustomerId = customer.Id;
+
+            //prepare page parameters
+            searchModel.SetGridPageSize();
+            //prepare external authentication records
+            PrepareAssociatedExternalAuthModels(searchModel.AssociatedExternalAuthRecords, customer);
+            searchModel.Grid = PrepareCustomerAssociatedExternalAuthRecordsGridModel(searchModel);
+
+            return searchModel;
+        }
+
+        /// <summary>
+        /// Prepare datatables model
+        /// </summary>
+        /// <param name="searchModel">Search model</param>
+        /// <returns>Datatables model</returns>
+        protected virtual DataTablesModel PrepareCustomerGridModel(CustomerSearchModel searchModel)
+        {
+            //prepare common properties
+            var model = new DataTablesModel
+            {
+                Name = "customers-grid",
+                UrlRead = new DataUrl("CustomerList", "Customer", null),
+                SearchButtonId = "search-customers",
+                Length = searchModel.PageSize,
+                LengthMenu = searchModel.AvailablePageSizes
+            };
+
+            //prepare filters to search
+            model.Filters = new List<FilterParameter>
+            {
+                new FilterParameter(nameof(searchModel.SelectedCustomerRoleIds)),
+                new FilterParameter(nameof(searchModel.SearchEmail)),
+                new FilterParameter(nameof(searchModel.SearchUsername)),
+                new FilterParameter(nameof(searchModel.SearchFirstName)),
+                new FilterParameter(nameof(searchModel.SearchLastName)),
+                new FilterParameter(nameof(searchModel.SearchDayOfBirth)),
+                new FilterParameter(nameof(searchModel.SearchMonthOfBirth)),
+                new FilterParameter(nameof(searchModel.SearchCompany)),
+                new FilterParameter(nameof(searchModel.SearchPhone)),
+                new FilterParameter(nameof(searchModel.SearchZipPostalCode)),
+                new FilterParameter(nameof(searchModel.SearchIpAddress)),
+            };
+
+            //prepare model columns
+            var columnsProperty = new List<ColumnProperty>();
+            columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.Id))
+            {
+                IsMasterCheckBox = true,
+                Render = new RenderCheckBox("checkbox_customers"),
+                ClassName = StyleColumn.CenterAll,
+                Width = "50",
+            });
+            columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.Email))
+            {
+                Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.Email"),
+                Width = "200"
+            });
+            if (searchModel.AvatarEnabled)
+            {
+                columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.AvatarUrl))
+                {
+                    Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.Avatar"),
+                    Width = "100",
+                    Render = new RenderPicture()
+                });
+            }
+            if (searchModel.UsernamesEnabled)
+            {
+                columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.Username))
+                {
+                    Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.Username"),
+                    Width = "200"
+                });
+            }
+            columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.FullName))
+            {
+                Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.FullName"),
+                Width = "200"
+            });
+            columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.CustomerRoleNames))
+            {
+                Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.CustomerRoles"),
+                Width = "200"
+            });
+            if (searchModel.CompanyEnabled)
+            {
+                columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.Company))
+                {
+                    Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.Company"),
+                    Width = "200"
+                });
+            }
+            if (searchModel.PhoneEnabled)
+            {
+                columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.Phone))
+                {
+                    Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.Phone"),
+                    Width = "200"
+                });
+            }
+            if (searchModel.ZipPostalCodeEnabled)
+            {
+                columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.ZipPostalCode))
+                {
+                    Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.ZipPostalCode"),
+                    Width = "200"
+                });
+            }
+            columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.Active))
+            {
+                Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.Active"),
+                Width = "100",
+                ClassName = StyleColumn.CenterAll,
+                Render = new RenderBoolean()
+            });
+
+            columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.CreatedOn))
+            {
+                Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.CreatedOn"),
+                Width = "200",
+                Render = new RenderDate()
+            });
+            columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.LastActivityDate))
+            {
+                Title = _localizationService.GetResource("Admin.Customers.Customers.Fields.LastActivityDate"),
+                Width = "200",
+                Render = new RenderDate()
+            });
+            columnsProperty.Add(new ColumnProperty(nameof(CustomerModel.Id))
+            {
+                Title = _localizationService.GetResource("Admin.Common.Edit"),
+                Width = "100",
+                ClassName = StyleColumn.ButtonStyle,
+                Render = new RenderButtonEdit(new DataUrl("Edit"))
+            });
+            
+            model.ColumnCollection = columnsProperty;
+
+            return model;
+        }
+
+        /// <summary>
+        /// Prepare datatables model
+        /// </summary>
+        /// <param name="searchModel">Search model</param>
+        /// <returns>Datatables model</returns>
+        protected virtual DataTablesModel PrepareCustomerAssociatedExternalAuthRecordsGridModel(CustomerAssociatedExternalAuthRecordsSearchModel searchModel)
+        {
+            //prepare common properties
+            var model = new DataTablesModel
+            {
+                Name = "externalauthrecords-grid",
+                Paging = false,
+                ServerSide = false,
+                Length = searchModel.PageSize,
+                LengthMenu = searchModel.AvailablePageSizes,
+
+                //prepare model columns
+                ColumnCollection = new List<ColumnProperty>
+                {
+                    new ColumnProperty(nameof(CustomerAssociatedExternalAuthModel.AuthMethodName))
+                    {
+                        Title = _localizationService.GetResource("Admin.Customers.Customers.AssociatedExternalAuth.Fields.AuthMethodName"),
+                        Width = "100"
+                    },
+                    new ColumnProperty(nameof(CustomerAssociatedExternalAuthModel.Email))
+                    {
+                        Title = _localizationService.GetResource("Admin.Customers.Customers.AssociatedExternalAuth.Fields.Email"),
+                        Width = "100"
+                    },
+                    new ColumnProperty(nameof(CustomerAssociatedExternalAuthModel.ExternalIdentifier))
+                    {
+                        Title = _localizationService.GetResource("Admin.Customers.Customers.AssociatedExternalAuth.Fields.ExternalIdentifier"),
+                        Width = "300"
+                    }
+                },
+                //prepare grid data
+                Data = JsonConvert.SerializeObject(searchModel.AssociatedExternalAuthRecords.Select(externalAuthRecord => new
+                {
+                    AuthMethodName = JavaScriptEncoder.Default.Encode(externalAuthRecord.AuthMethodName),
+                    Email = JavaScriptEncoder.Default.Encode(externalAuthRecord.Email),
+                    ExternalIdentifier = JavaScriptEncoder.Default.Encode(externalAuthRecord.ExternalIdentifier)
+                }).ToList())
+            };
+
+            return model;
+        }
+
+        /// <summary>
+        /// Prepare datatables model
+        /// </summary>
+        /// <param name="searchModel">Search model</param>
+        /// <returns>Datatables model</returns>
+        protected virtual DataTablesModel PrepareCustomerBackInStockSubscriptionGridModel(CustomerBackInStockSubscriptionSearchModel searchModel)
+        {
+            var stores = _storeService.GetAllStores();
+
+            //prepare common properties
+            var model = new DataTablesModel
+            {
+                Name = "backinstock-subscriptions-grid",
+                UrlRead = new DataUrl("BackInStockSubscriptionList", "Customer", null),
+                Length = searchModel.PageSize,
+                LengthMenu = searchModel.AvailablePageSizes,
+
+                //prepare filters to search
+                Filters = new List<FilterParameter>
+                {
+                    new FilterParameter(nameof(searchModel.CustomerId), searchModel.CustomerId)
+                },
+
+                //prepare model columns
+                ColumnCollection = new List<ColumnProperty>
+                {
+                    new ColumnProperty(nameof(CustomerBackInStockSubscriptionModel.StoreName))
+                    {
+                        Title = _localizationService.GetResource("Admin.Customers.Customers.BackInStockSubscriptions.Store"),
+                        Width = "200",
+                        Visible = stores.Count > 1
+                    },
+                    new ColumnProperty(nameof(CustomerBackInStockSubscriptionModel.ProductName))
+                    {
+                        Title = _localizationService.GetResource("Admin.Customers.Customers.BackInStockSubscriptions.Product"),
+                        Width = "300",
+                        Render = new RenderLink(new DataUrl("~/Admin/Product/Edit/", nameof(CustomerBackInStockSubscriptionModel.ProductId)))
+                    },
+                    new ColumnProperty(nameof(CustomerBackInStockSubscriptionModel.CreatedOn))
+                    {
+                        Title = _localizationService.GetResource("Admin.Customers.Customers.BackInStockSubscriptions.CreatedOn"),
+                        Width = "200",
+                        Render = new RenderDate()
+                    }
+                }
+            };
+
+            return model;
+        }
+
+        /// <summary>
+        /// Prepare datatables model
+        /// </summary>
+        /// <param name="searchModel">Search model</param>
+        /// <returns>Datatables model</returns>
+        protected virtual DataTablesModel PrepareOrderGridModel(CustomerOrderSearchModel searchModel)
+        {
+            //prepare common properties
+            var model = new DataTablesModel
+            {
+                Name = "order-grid",
+                UrlRead = new DataUrl("OrderList", "Customer", new RouteValueDictionary { [nameof(searchModel.CustomerId)] = searchModel.CustomerId }),
+                Length = searchModel.PageSize,
+                LengthMenu = searchModel.AvailablePageSizes,
+            };
+
+            //prepare model columns
+            model.ColumnCollection = new List<ColumnProperty>
+            {
+                new ColumnProperty(nameof(CustomerOrderModel.CustomOrderNumber))
+                {
+                    Title = _localizationService.GetResource("Admin.Customers.Customers.Orders.CustomOrderNumber"),
+                    Width = "200"
+                },
+                new ColumnProperty(nameof(CustomerOrderModel.OrderTotal))
+                {
+                    Title = _localizationService.GetResource("Admin.Customers.Customers.Orders.OrderTotal"),
+                    Width = "200"
+                },
+                new ColumnProperty(nameof(CustomerOrderModel.OrderStatus))
+                {
+                    Title = _localizationService.GetResource("Admin.Customers.Customers.Orders.OrderStatus"),
+                    Width = "200",
+                    Render = new RenderCustom("renderColumnOrderStatus")
+                },
+                new ColumnProperty(nameof(CustomerOrderModel.PaymentStatus))
+                {
+                    Title = _localizationService.GetResource("Admin.Orders.Fields.PaymentStatus"),
+                    Width = "200"
+                },
+                new ColumnProperty(nameof(CustomerOrderModel.ShippingStatus))
+                {
+                    Title = _localizationService.GetResource("Admin.Orders.Fields.ShippingStatus"),
+                    Width = "200"
+                },
+                new ColumnProperty(nameof(CustomerOrderModel.StoreName))
+                {
+                    Title = _localizationService.GetResource("Admin.Orders.Fields.Store"),
+                    Width = "200",
+                    Visible = _storeService.GetAllStores().Count > 1
+                },
+                new ColumnProperty(nameof(CustomerOrderModel.CreatedOn))
+                {
+                    Title = _localizationService.GetResource("Admin.System.Log.Fields.CreatedOn"),
+                    Width = "200",
+                    Render = new RenderDate()
+                },
+                new ColumnProperty(nameof(CustomerOrderModel.Id))
+                {
+                    Title = _localizationService.GetResource("Admin.Common.View"),
+                    Width = "100",
+                    ClassName = StyleColumn.ButtonStyle,
+                    Render = new RenderButtonEdit(new DataUrl("~/Admin/Order/Edit/"))
+                }
+            };
+            return model;
+        }
+        
         #endregion
 
         #region Methods
@@ -560,6 +959,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
             //prepare page parameters
             searchModel.SetGridPageSize();
+            searchModel.Grid = PrepareCustomerGridModel(searchModel);
 
             return searchModel;
         }
@@ -593,12 +993,12 @@ namespace Nop.Web.Areas.Admin.Factories
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare list model
-            var model = new CustomerListModel
+            var model = new CustomerListModel().PrepareToGrid(searchModel, customers, () =>
             {
-                Data = customers.Select(customer =>
+                return customers.Select(customer =>
                 {
                     //fill in model values from the entity
-                    var customerModel = customer.ToModel<CustomerModel>();                    
+                    var customerModel = customer.ToModel<CustomerModel>();
 
                     //convert dates to the user time
                     customerModel.Email = customer.IsRegistered() ? customer.Email : _localizationService.GetResource("Admin.Customers.Guest");
@@ -620,9 +1020,8 @@ namespace Nop.Web.Areas.Admin.Factories
                     }
 
                     return customerModel;
-                }),
-                Total = customers.TotalCount
-            };
+                });
+            });
 
             return model;
         }
@@ -705,9 +1104,6 @@ namespace Nop.Web.Areas.Admin.Factories
                 if (model.DisplayRewardPointsHistory)
                     PrepareAddRewardPointsToCustomerModel(model.AddRewardPoints);
 
-                //prepare external authentication records
-                PrepareAssociatedExternalAuthModels(model.AssociatedExternalAuthRecords, customer);
-
                 //prepare nested search models
                 PrepareRewardPointsSearchModel(model.CustomerRewardPointsSearchModel, customer);
                 PrepareCustomerAddressSearchModel(model.CustomerAddressSearchModel, customer);
@@ -715,6 +1111,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 PrepareCustomerShoppingCartSearchModel(model.CustomerShoppingCartSearchModel, customer);
                 PrepareCustomerActivityLogSearchModel(model.CustomerActivityLogSearchModel, customer);
                 PrepareCustomerBackInStockSubscriptionSearchModel(model.CustomerBackInStockSubscriptionSearchModel, customer);
+                PrepareCustomerAssociatedExternalAuthRecordsSearchModel(model.CustomerAssociatedExternalAuthRecordsSearchModel, customer);
             }
             else
             {
@@ -802,12 +1199,12 @@ namespace Nop.Web.Areas.Admin.Factories
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare list model
-            var model = new CustomerRewardPointsListModel
+            var model = new CustomerRewardPointsListModel().PrepareToGrid(searchModel, rewardPoints, () =>
             {
-                Data = rewardPoints.Select(historyEntry =>
+                return rewardPoints.Select(historyEntry =>
                 {
                     //fill in model values from the entity        
-                    var rewardPointsHistoryModel = historyEntry.ToModel<CustomerRewardPointsModel>();                    
+                    var rewardPointsHistoryModel = historyEntry.ToModel<CustomerRewardPointsModel>();
 
                     //convert dates to the user time
                     var activatingDate = _dateTimeHelper.ConvertToUserTime(historyEntry.CreatedOnUtc, DateTimeKind.Utc);
@@ -821,9 +1218,8 @@ namespace Nop.Web.Areas.Admin.Factories
                     rewardPointsHistoryModel.StoreName = _storeService.GetStoreById(historyEntry.StoreId)?.Name ?? "Unknown";
 
                     return rewardPointsHistoryModel;
-                }),
-                Total = rewardPoints.TotalCount
-            };
+                });
+            });
 
             return model;
         }
@@ -844,12 +1240,13 @@ namespace Nop.Web.Areas.Admin.Factories
 
             //get customer addresses
             var addresses = customer.Addresses
-                .OrderByDescending(address => address.CreatedOnUtc).ThenByDescending(address => address.Id).ToList();
+                .OrderByDescending(address => address.CreatedOnUtc).ThenByDescending(address => address.Id).ToList()
+                .ToPagedList(searchModel);
 
             //prepare list model
-            var model = new CustomerAddressListModel
+            var model = new CustomerAddressListModel().PrepareToGrid(searchModel, addresses, () =>
             {
-                Data = addresses.PaginationByRequestModel(searchModel).Select(address =>
+                return addresses.Select(address =>
                 {
                     //fill in model values from the entity        
                     var addressModel = address.ToModel<AddressModel>();
@@ -860,9 +1257,8 @@ namespace Nop.Web.Areas.Admin.Factories
                     PrepareModelAddressHtml(addressModel, address);
 
                     return addressModel;
-                }),
-                Total = addresses.Count
-            };
+                });
+            });
 
             return model;
         }
@@ -918,16 +1314,16 @@ namespace Nop.Web.Areas.Admin.Factories
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare list model
-            var model = new CustomerOrderListModel
+            var model = new CustomerOrderListModel().PrepareToGrid(searchModel, orders, () =>
             {
-                Data = orders.Select(order =>
+                return orders.Select(order =>
                 {
                     //fill in model values from the entity
                     var orderModel = order.ToModel<CustomerOrderModel>();
 
                     //convert dates to the user time
                     orderModel.CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc);
-                    
+
                     //fill in additional values (not existing in the entity)
                     orderModel.StoreName = _storeService.GetStoreById(order.StoreId)?.Name ?? "Unknown";
                     orderModel.OrderStatus = _localizationService.GetLocalizedEnum(order.OrderStatus);
@@ -936,9 +1332,8 @@ namespace Nop.Web.Areas.Admin.Factories
                     orderModel.OrderTotal = _priceFormatter.FormatPrice(order.OrderTotal, true, false);
 
                     return orderModel;
-                }),
-                Total = orders.TotalCount
-            };
+                });
+            });
 
             return model;
         }
@@ -959,29 +1354,34 @@ namespace Nop.Web.Areas.Admin.Factories
                 throw new ArgumentNullException(nameof(customer));
 
             //get customer shopping cart
-            var shoppingCart = customer.ShoppingCartItems.Where(item => item.ShoppingCartTypeId == searchModel.ShoppingCartTypeId).ToList();
+            var shoppingCart = customer.ShoppingCartItems
+                .Where(item => item.ShoppingCartTypeId == searchModel.ShoppingCartTypeId).ToList()
+                .ToPagedList(searchModel);
 
             //prepare list model
-            var model = new CustomerShoppingCartListModel
+
+            var pageList = shoppingCart.Select(item =>
             {
-                Data = shoppingCart.PaginationByRequestModel(searchModel).Select(item =>
-                {
-                    //fill in model values from the entity
-                    var shoppingCartItemModel = item.ToModel<ShoppingCartItemModel>();
+                //fill in model values from the entity
+                var shoppingCartItemModel = item.ToModel<ShoppingCartItemModel>();
 
-                    //fill in additional values (not existing in the entity)
-                    shoppingCartItemModel.ProductName = item.Product.Name;
-                    shoppingCartItemModel.Store = _storeService.GetStoreById(item.StoreId)?.Name ?? "Unknown";                    
-                    shoppingCartItemModel.AttributeInfo = _productAttributeFormatter.FormatAttributes(item.Product, item.AttributesXml);
-                    shoppingCartItemModel.UnitPrice = _priceFormatter.FormatPrice(_taxService.GetProductPrice(item.Product, _priceCalculationService.GetUnitPrice(item), out var _));
-                    shoppingCartItemModel.Total = _priceFormatter.FormatPrice(_taxService.GetProductPrice(item.Product, _priceCalculationService.GetSubTotal(item), out _));
-                    //convert dates to the user time
-                    shoppingCartItemModel.UpdatedOn = _dateTimeHelper.ConvertToUserTime(item.UpdatedOnUtc, DateTimeKind.Utc);
+                //fill in additional values (not existing in the entity)
+                shoppingCartItemModel.ProductName = item.Product.Name;
+                shoppingCartItemModel.Store = _storeService.GetStoreById(item.StoreId)?.Name ?? "Unknown";
+                shoppingCartItemModel.AttributeInfo =
+                    _productAttributeFormatter.FormatAttributes(item.Product, item.AttributesXml);
+                shoppingCartItemModel.UnitPrice = _priceFormatter.FormatPrice(
+                    _taxService.GetProductPrice(item.Product, _priceCalculationService.GetUnitPrice(item), out var _));
+                shoppingCartItemModel.Total = _priceFormatter.FormatPrice(
+                    _taxService.GetProductPrice(item.Product, _priceCalculationService.GetSubTotal(item), out _));
+                //convert dates to the user time
+                shoppingCartItemModel.UpdatedOn =
+                    _dateTimeHelper.ConvertToUserTime(item.UpdatedOnUtc, DateTimeKind.Utc);
 
-                    return shoppingCartItemModel;
-                }),
-                Total = shoppingCart.Count
-            };
+                return shoppingCartItemModel;
+            }).ToList().ToPagedList(searchModel);
+
+            var model = new CustomerShoppingCartListModel().PrepareToGrid(searchModel, pageList, () => pageList);
 
             return model;
         }
@@ -1004,25 +1404,24 @@ namespace Nop.Web.Areas.Admin.Factories
             var activityLog = _customerActivityService.GetAllActivities(customerId: customer.Id,
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
-            //prepare list model
-            var model = new CustomerActivityLogListModel
+            var pageList = activityLog.Select(logItem =>
             {
-                Data = activityLog.Select(logItem =>
-                {
-                    //fill in model values from the entity
-                    var customerActivityLogModel = logItem.ToModel<CustomerActivityLogModel>();
+                //fill in model values from the entity
+                var customerActivityLogModel = logItem.ToModel<CustomerActivityLogModel>();
 
-                    //fill in additional values (not existing in the entity)
-                    customerActivityLogModel.ActivityLogTypeName = logItem.ActivityLogType.Name;
+                //fill in additional values (not existing in the entity)
+                customerActivityLogModel.ActivityLogTypeName = logItem.ActivityLogType.Name;
 
-                    //convert dates to the user time
-                    customerActivityLogModel.CreatedOn = _dateTimeHelper.ConvertToUserTime(logItem.CreatedOnUtc, DateTimeKind.Utc);
+                //convert dates to the user time
+                customerActivityLogModel.CreatedOn =
+                    _dateTimeHelper.ConvertToUserTime(logItem.CreatedOnUtc, DateTimeKind.Utc);
 
-                    return customerActivityLogModel;
-                }),
-                Total = activityLog.TotalCount
-            };
+                return customerActivityLogModel;
+            }).ToList().ToPagedList(searchModel);
 
+            //prepare list model
+            var model = new CustomerActivityLogListModel().PrepareToGrid(searchModel, pageList, () => pageList);
+            
             return model;
         }
 
@@ -1046,25 +1445,23 @@ namespace Nop.Web.Areas.Admin.Factories
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare list model
-            var model = new CustomerBackInStockSubscriptionListModel
+            var pageList = subscriptions.Select(subscription =>
             {
-                Data = subscriptions.Select(subscription =>
-                {
+                //fill in model values from the entity
+                var subscriptionModel = subscription.ToModel<CustomerBackInStockSubscriptionModel>();
 
-                    //fill in model values from the entity
-                    var subscriptionModel = subscription.ToModel<CustomerBackInStockSubscriptionModel>();
-                    
-                    //convert dates to the user time
-                    subscriptionModel.CreatedOn = _dateTimeHelper.ConvertToUserTime(subscription.CreatedOnUtc, DateTimeKind.Utc);
+                //convert dates to the user time
+                subscriptionModel.CreatedOn =
+                    _dateTimeHelper.ConvertToUserTime(subscription.CreatedOnUtc, DateTimeKind.Utc);
 
-                    //fill in additional values (not existing in the entity)
-                    subscriptionModel.StoreName = _storeService.GetStoreById(subscription.StoreId)?.Name ?? "Unknown";
-                    subscriptionModel.ProductName = subscription.Product?.Name ?? "Unknown";
+                //fill in additional values (not existing in the entity)
+                subscriptionModel.StoreName = _storeService.GetStoreById(subscription.StoreId)?.Name ?? "Unknown";
+                subscriptionModel.ProductName = subscription.Product?.Name ?? "Unknown";
 
-                    return subscriptionModel;
-                }),
-                Total = subscriptions.TotalCount
-            };
+                return subscriptionModel;
+            }).ToList().ToPagedList(searchModel);
+
+            var model = new CustomerBackInStockSubscriptionListModel().PrepareToGrid(searchModel, pageList, () => pageList);
 
             return model;
         }
@@ -1104,12 +1501,12 @@ namespace Nop.Web.Areas.Admin.Factories
                  pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare list model
-            var model = new OnlineCustomerListModel
+            var model = new OnlineCustomerListModel().PrepareToGrid(searchModel, customers, () =>
             {
-                Data = customers.Select(customer =>
+                return customers.Select(customer =>
                 {
                     //fill in model values from the entity
-                    var customerModel = customer.ToModel<OnlineCustomerModel>();                    
+                    var customerModel = customer.ToModel<OnlineCustomerModel>();
 
                     //convert dates to the user time
                     customerModel.LastActivityDate = _dateTimeHelper.ConvertToUserTime(customer.LastActivityDateUtc, DateTimeKind.Utc);
@@ -1125,9 +1522,8 @@ namespace Nop.Web.Areas.Admin.Factories
                         : _localizationService.GetResource("Admin.Customers.OnlineCustomers.Fields.LastVisitedPage.Disabled");
 
                     return customerModel;
-                }),
-                Total = customers.TotalCount
-            };
+                });
+            });
 
             return model;
         }
@@ -1163,7 +1559,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
             var customerId = 0;
             var customerInfo = "";
-            if (!String.IsNullOrEmpty(searchModel.SearchEmail))
+            if (!string.IsNullOrEmpty(searchModel.SearchEmail))
             {
                 var customer = _customerService.GetCustomerByEmail(searchModel.SearchEmail);
                 if (customer != null)
@@ -1182,9 +1578,9 @@ namespace Nop.Web.Areas.Admin.Factories
                 pageSize: searchModel.PageSize);
 
             //prepare list model
-            var model = new GdprLogListModel
+            var model = new GdprLogListModel().PrepareToGrid(searchModel, gdprLog, () =>
             {
-                Data = gdprLog.Select(log =>
+                return gdprLog.Select(log =>
                 {
                     //fill in model values from the entity
                     var customer = _customerService.GetCustomerById(log.CustomerId);
@@ -1192,14 +1588,13 @@ namespace Nop.Web.Areas.Admin.Factories
                     var requestModel = log.ToModel<GdprLogModel>();
 
                     //fill in additional values (not existing in the entity)
-                    requestModel.CustomerInfo = customer != null && !customer.Deleted && !String.IsNullOrEmpty(customer.Email) ? customer.Email : log.CustomerInfo;
+                    requestModel.CustomerInfo = customer != null && !customer.Deleted && !string.IsNullOrEmpty(customer.Email) ? customer.Email : log.CustomerInfo;
                     requestModel.RequestType = _localizationService.GetLocalizedEnum(log.RequestType);
                     requestModel.CreatedOn = _dateTimeHelper.ConvertToUserTime(log.CreatedOnUtc, DateTimeKind.Utc);
 
                     return requestModel;
-                }),
-                Total = gdprLog.TotalCount
-            };
+                });
+            });
 
             return model;
         }
