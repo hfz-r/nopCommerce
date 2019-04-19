@@ -11,6 +11,7 @@ using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Catalog;
 using Nop.Web.Framework.Extensions;
 using Nop.Web.Framework.Factories;
+using Nop.Web.Framework.Models.Extensions;
 
 namespace Nop.Web.Areas.Admin.Factories
 {
@@ -88,7 +89,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
             return searchModel;
         }
-
+        
         #endregion
 
         #region Methods
@@ -131,18 +132,17 @@ namespace Nop.Web.Areas.Admin.Factories
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare grid model
-            var model = new ManufacturerListModel
+            var model = new ManufacturerListModel().PrepareToGrid(searchModel, manufacturers, () =>
             {
                 //fill in model values from the entity
-                Data = manufacturers.Select(manufacturer =>
+                return manufacturers.Select(manufacturer =>
                 {
                     var manufacturerModel = manufacturer.ToModel<ManufacturerModel>();
                     manufacturerModel.SeName = _urlRecordService.GetSeName(manufacturer, 0, true, false);
 
                     return manufacturerModel;
-                }),
-                Total = manufacturers.TotalCount
-            };
+                });
+            });
 
             return model;
         }
@@ -235,7 +235,6 @@ namespace Nop.Web.Areas.Admin.Factories
             //prepare grid model
             var model = new ManufacturerProductListModel
             {
-                
                 Data = productManufacturers.Select(productManufacturer =>
                 {
                     //fill in model values from the entity
@@ -304,18 +303,16 @@ namespace Nop.Web.Areas.Admin.Factories
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare grid model
-            var model = new AddProductToManufacturerListModel
+            var model = new AddProductToManufacturerListModel().PrepareToGrid(searchModel, products, () =>
             {
-                //fill in model values from the entity
-                Data = products.Select(product =>
+                return products.Select(product =>
                 {
                     var productModel = product.ToModel<ProductModel>();
                     productModel.SeName = _urlRecordService.GetSeName(product, 0, true, false);
 
                     return productModel;
-                }),
-                Total = products.TotalCount
-            };
+                });
+            });
 
             return model;
         }

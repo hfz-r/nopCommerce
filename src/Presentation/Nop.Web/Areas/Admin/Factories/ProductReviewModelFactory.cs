@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core;
@@ -8,9 +9,12 @@ using Nop.Core.Html;
 using Nop.Services.Catalog;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
+using Nop.Services.Stores;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Catalog;
 using Nop.Web.Framework.Extensions;
+using Nop.Web.Framework.Models.DataTables;
+using Nop.Web.Framework.Models.Extensions;
 
 namespace Nop.Web.Areas.Admin.Factories
 {
@@ -27,7 +31,8 @@ namespace Nop.Web.Areas.Admin.Factories
         private readonly ILocalizationService _localizationService;
         private readonly IProductService _productService;
         private readonly IReviewTypeService _reviewTypeService;
-        private readonly IWorkContext _workContext;        
+        private readonly IStoreService _storeService;
+        private readonly IWorkContext _workContext;
 
         #endregion
 
@@ -39,6 +44,7 @@ namespace Nop.Web.Areas.Admin.Factories
             ILocalizationService localizationService,
             IProductService productService,
             IReviewTypeService reviewTypeService,
+            IStoreService storeService,
             IWorkContext workContext)
         {
             _catalogSettings = catalogSettings;
@@ -47,6 +53,7 @@ namespace Nop.Web.Areas.Admin.Factories
             _localizationService = localizationService;
             _productService = productService;
             _reviewTypeService = reviewTypeService;
+            _storeService = storeService;
             _workContext = workContext;
         }
 
@@ -125,9 +132,9 @@ namespace Nop.Web.Areas.Admin.Factories
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare list model
-            var model = new ProductReviewListModel
+            var model = new ProductReviewListModel().PrepareToGrid(searchModel, productReviews, () =>
             {
-                Data = productReviews.Select(productReview =>
+                return productReviews.Select(productReview =>
                 {
                     //fill in model values from the entity
                     var productReviewModel = productReview.ToModel<ProductReviewModel>();
@@ -144,9 +151,8 @@ namespace Nop.Web.Areas.Admin.Factories
                     productReviewModel.ReplyText = HtmlHelper.FormatText(productReview.ReplyText, false, true, false, false, false, false);
 
                     return productReviewModel;
-                }),
-                Total = productReviews.TotalCount
-            };
+                });
+            });
 
             return model;
         }
@@ -215,7 +221,7 @@ namespace Nop.Web.Areas.Admin.Factories
             searchModel.IsAnyReviewTypes = productReview.ProductReviewReviewTypeMappingEntries.Any();
 
             //prepare page parameters
-            searchModel.SetGridPageSize();
+            searchModel.SetGridPageSize();            
 
             return searchModel;
         }
@@ -235,12 +241,13 @@ namespace Nop.Web.Areas.Admin.Factories
                 throw new ArgumentNullException(nameof(productReview));
 
             //get product review and review type mappings
-            var productReviewReviewTypeMappings = _reviewTypeService.GetProductReviewReviewTypeMappingsByProductReviewId(productReview.Id);
+            var productReviewReviewTypeMappings = _reviewTypeService
+                .GetProductReviewReviewTypeMappingsByProductReviewId(productReview.Id).ToPagedList(searchModel);
 
             //prepare grid model
             var model = new ProductReviewReviewTypeMappingListModel
             {
-                Data = productReviewReviewTypeMappings.PaginationByRequestModel(searchModel).Select(productReviewReviewTypeMapping =>
+                Data = productReviewReviewTypeMappings.Select(productReviewReviewTypeMapping =>
                 {
                     //fill in model values from the entity
                     var productReviewReviewTypeMappingModel = productReviewReviewTypeMapping.ToModel<ProductReviewReviewTypeMappingModel>();
@@ -254,11 +261,11 @@ namespace Nop.Web.Areas.Admin.Factories
 
                     return productReviewReviewTypeMappingModel;
                 }),
-                Total = productReviewReviewTypeMappings.Count
+                Total = productReviewReviewTypeMappings.TotalCount
             };
 
             return model;
-        }        
+        }
 
         #endregion
     }
