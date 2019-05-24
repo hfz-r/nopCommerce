@@ -7,14 +7,10 @@
         @await Html.PartialAsync("Table", new DataTablesModel
         {
             Name = "checkoutattributevalues-grid",
-            UrlRead = new DataUrl("ValueList", "CheckoutAttribute", null),
+            UrlRead = new DataUrl("ValueList", "CheckoutAttribute", new RouteValueDictionary { [nameof(CheckoutAttributeValueSearchModel.CheckoutAttributeId)] = Model.CheckoutAttributeValueSearchModel.CheckoutAttributeId }),
             UrlDelete = new DataUrl("ValueDelete", "CheckoutAttribute", null),
             Length = Model.CheckoutAttributeValueSearchModel.PageSize,
             LengthMenu = Model.CheckoutAttributeValueSearchModel.AvailablePageSizes,
-            Filters = new List<FilterParameter>
-            {
-                new FilterParameter(nameof(CheckoutAttributeValueSearchModel.CheckoutAttributeId), Model.CheckoutAttributeValueSearchModel.CheckoutAttributeId)
-            },
             ColumnCollection = new List<ColumnProperty>
             {
                 new ColumnProperty(nameof(CheckoutAttributeValueModel.Name))
@@ -35,27 +31,28 @@
                 {
                     Title = T("Admin.Catalog.Attributes.CheckoutAttributes.Values.Fields.IsPreSelected").Text,
                     Width = "100",
-                    ClassName = StyleColumn.CenterAll,
+                    ClassName = NopColumnClassDefaults.CenterAll,
                     Render = new RenderBoolean()
                 },
                 new ColumnProperty(nameof(CheckoutAttributeValueModel.DisplayOrder))
                 {
                     Title = T("Admin.Catalog.Attributes.CheckoutAttributes.Values.Fields.DisplayOrder").Text,
-                    Width = "100"
+                    Width = "100",
+                    ClassName = NopColumnClassDefaults.CenterAll
                 },
                 new ColumnProperty(nameof(CheckoutAttributeValueModel.Id))
                 {
                     Title = T("Admin.Common.Edit").Text,
                     Width = "100",
-                    ClassName = StyleColumn.ButtonStyle,
+                    ClassName = NopColumnClassDefaults.Button,
                     Render = new RenderCustom("renderColumnEdit")
                 },
                 new ColumnProperty(nameof(CheckoutAttributeValueModel.Id))
                 {
                     Title = T("Admin.Common.Delete").Text,
                     Width = "100",
-                    Render = new RenderButtonRemove(T("Admin.Common.Delete").Text){ Style = StyleButton.Default },
-                    ClassName = StyleColumn.ButtonStyle
+                    Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+                    ClassName = NopColumnClassDefaults.Button
                 }
             }
        })
@@ -72,7 +69,7 @@
             $(document).ready(function () {
                 $('#btnRefresh').click(function () {
                     //refresh grid
-                    $('#checkoutattributevalues-grid').DataTable().ajax.reload();
+                    updateTable('#checkoutattributevalues-grid');
 
                     //return false to don't reload a page
                     return false;

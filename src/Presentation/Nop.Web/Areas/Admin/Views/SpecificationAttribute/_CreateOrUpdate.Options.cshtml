@@ -6,14 +6,10 @@
         @await Html.PartialAsync("Table", new DataTablesModel
         {
             Name = "specificationattributeoptions-grid",
-            UrlRead = new DataUrl("OptionList", "SpecificationAttribute", null),
+            UrlRead = new DataUrl("OptionList", "SpecificationAttribute", new RouteValueDictionary { [nameof(Model.SpecificationAttributeOptionSearchModel.SpecificationAttributeId)] = Model.SpecificationAttributeOptionSearchModel.SpecificationAttributeId }),
             UrlDelete = new DataUrl("OptionDelete", "SpecificationAttribute", null),
             Length = Model.SpecificationAttributeOptionSearchModel.PageSize,
             LengthMenu = Model.SpecificationAttributeOptionSearchModel.AvailablePageSizes,
-            Filters = new List<FilterParameter>
-            {
-                new FilterParameter(nameof(Model.SpecificationAttributeOptionSearchModel.SpecificationAttributeId), Model.SpecificationAttributeOptionSearchModel.SpecificationAttributeId)
-            },
             ColumnCollection = new List<ColumnProperty>
             {
                 new ColumnProperty(nameof(SpecificationAttributeOptionModel.Name))
@@ -23,26 +19,28 @@
                 new ColumnProperty(nameof(SpecificationAttributeOptionModel.DisplayOrder))
                 {
                     Title = T("Admin.Catalog.Attributes.SpecificationAttributes.Options.Fields.DisplayOrder").Text,
-                    Width = "100"
+                    Width = "100",
+                    ClassName =  NopColumnClassDefaults.CenterAll
                 },
                 new ColumnProperty(nameof(SpecificationAttributeOptionModel.NumberOfAssociatedProducts))
                 {
                     Title = T("Admin.Catalog.Attributes.SpecificationAttributes.Options.Fields.NumberOfAssociatedProducts").Text,
-                    Width = "250"
+                    Width = "250",
+                    ClassName =  NopColumnClassDefaults.CenterAll
                 },
                 new ColumnProperty(nameof(SpecificationAttributeOptionModel.Id))
                 {
                     Title = T("Admin.Common.Edit").Text,
                     Width = "100",
-                    ClassName =  StyleColumn.ButtonStyle,
+                    ClassName =  NopColumnClassDefaults.Button,
                     Render = new RenderCustom("renderColumnEdit")
                 },
                 new ColumnProperty(nameof(SpecificationAttributeOptionModel.Id))
                 {
                     Title = T("Admin.Common.Delete").Text,
                     Width = "100",
-                    Render = new RenderButtonRemove(T("Admin.Common.Delete").Text) { Style = StyleButton.Default },
-                    ClassName =  StyleColumn.ButtonStyle
+                    Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+                    ClassName =  NopColumnClassDefaults.Button
                 }
             }
         })
@@ -63,7 +61,7 @@
             $(document).ready(function () {
                 $('#btnRefresh').click(function () {
                     //refresh grid
-                    $('#specificationattributeoptions-grid').DataTable().ajax.reload();
+                    updateTable('#specificationattributeoptions-grid');
 
                     //return false to don't reload a page
                     return false;

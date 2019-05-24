@@ -6,8 +6,8 @@ declare @resources xml
 set @resources='
 <Language>
   <LocaleResource Name="Admin.ContentManagement.Topics.Fields.Title.Required">
-    <Value>Title is required</Value>
-  </LocaleResource>  
+    <Value></Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Order.DisableBillingAddressCheckoutStep.Hint">
     <Value>Check to disable "Billing address" step during checkout. Billing address will be pre-filled and saved using the default registration data (this option cannot be used with guest checkout enabled). Also ensure that appropriate address fields that cannot be pre-filled are not required (or disabled). If a customer doesn''t have a billing address, then the billing address step will be displayed.</Value>
   </LocaleResource>
@@ -22,16 +22,16 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.UseResponseCompression">
     <Value>Use response compression</Value>
-  </LocaleResource>  
-   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.UseResponseCompression.Hint">
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.UseResponseCompression.Hint">
     <Value>Enable to compress response (gzip by default). You can disable it if you have an active IIS Dynamic Compression Module configured at the server level.</Value>
-  </LocaleResource>   
+  </LocaleResource>
   <LocaleResource Name="Admin.System.Warnings.URL.Reserved">
     <Value>The entered text will be replaced by ''{0}'', since it is already used as a SEO-friendly name for another page or contains invalid characters</Value>
   </LocaleResource>
   <LocaleResource Name="Plugins.Payments.PayPalStandard.Instructions">
     <Value>
-		<![CDATA[
+      <![CDATA[
 		<p>
 			<b>If you''re using this gateway ensure that your primary store currency is supported by PayPal.</b>
 			<br />
@@ -48,8 +48,8 @@ set @resources='
 			<br />
 		</p>
 		]]>
-	</Value>
-  </LocaleResource>  
+    </Value>
+  </LocaleResource>
   <LocaleResource Name="Plugins.ExternalAuth.Facebook.Instructions">
     <Value><![CDATA[<p>To configure authentication with Facebook, please follow these steps:<br/><br/><ol><li>Navigate to the <a href="https://developers.facebook.com/apps" target ="_blank" > Facebook for Developers</a> page and sign in. If you don''t already have a Facebook account, use the <b>Sign up for Facebook</b> link on the login page to create one.</li><li>Tap the <b>+ Add a New App button</b> in the upper right corner to create a new App ID. (If this is your first app with Facebook, the text of the button will be <b>Create a New App</b>.)</li><li>Fill out the form and tap the <b>Create App ID button</b>.</li><li>The <b>Product Setup</b> page is displayed, letting you select the features for your new app. Click <b>Get Started</b> on <b>Facebook Login</b>.</li><li>Click the <b>Settings</b> link in the menu at the left, you are presented with the <b>Client OAuth Settings</b> page with some defaults already set.</li><li>Enter "{0:s}signin-facebook" into the <b>Valid OAuth Redirect URIs</b> field.</li><li>Click <b>Save Changes</b>.</li><li>Click the <b>Dashboard</b> link in the left navigation.</li><li>Copy your App ID and App secret below.</li></ol><br/><br/></p>]]></Value>
   </LocaleResource>
@@ -58,7 +58,7 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Alert">
     <Value>Information</Value>
-  </LocaleResource>  
+  </LocaleResource>
   <LocaleResource Name="Admin.Common.Ok">
     <Value>Ok</Value>
   </LocaleResource>
@@ -74,7 +74,7 @@ set @resources='
   <LocaleResource Name="Admin.Customers.Customers.RewardPoints.Alert.HistoryAdd">
     <Value>Failed to add reward points.</Value>
   </LocaleResource>
-    <LocaleResource Name="Admin.Promotions.Discounts.Requirements.Alert.FailedToSave">
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.Alert.FailedToSave">
     <Value>Failed to save requirement</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.GiftCards.Fields.GiftCardCouponCode.Alert.FailedGenerate">
@@ -108,7 +108,7 @@ set @resources='
     <Value>Failed to save download object.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Vendors.VendorNotes.AddTitle.Alert.FailedAddNote">
-    <Value>Failed to add vendor note.</Value>
+    <Value></Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.SpecificationAttributes.Alert.FailedAdd">
     <Value></Value>
@@ -124,10 +124,10 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.FailedToSave">
     <Value></Value>
-  </LocaleResource> 
+  </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.SpecificationAttributes.SelectOption">
     <Value></Value>
-  </LocaleResource> 
+  </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.SpecificationAttributes.NoAttributeOptions">
     <Value></Value>
   </LocaleResource>
@@ -145,11 +145,11 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.DiscountCouponCode.Activated">
     <Value>Coupon code ({0}) is activated! The discount will be applied to your order.</Value>
-  </LocaleResource>  
+  </LocaleResource>
   <LocaleResource Name="ShoppingCart.DiscountCouponCode.Invalid">
     <Value>This coupon code ({0}) is invalid or no longer available.</Value>
   </LocaleResource>
-   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordRequireDigit">
+  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordRequireDigit">
     <Value>Password must have at least one digit</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.PasswordRequireDigit.Hint">
@@ -205,7 +205,7 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Account.Fields.Password.LengthValidation">
     <Value></Value>
-  </LocaleResource>  
+  </LocaleResource>
   <LocaleResource Name="Account.PasswordRecovery.NewPassword.Required">
     <Value></Value>
   </LocaleResource>
@@ -229,7 +229,7 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Import.StoresDontExist">
     <Value>Stores with the following names and/or IDs don''t exist: {0}</Value>
-  </LocaleResource> 
+  </LocaleResource>
   <LocaleResource Name="Admin.DT.Aria.SortAscending">
     <Value>: activate to sort column ascending</Value>
   </LocaleResource>
@@ -240,10 +240,10 @@ set @resources='
     <Value>No data available in table</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.DT.Info">
-    <Value>Showing _START_ to _END_ of _TOTAL_ entries</Value>
+    <Value>_START_-_END_ of _TOTAL_ items</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.DT.InfoEmpty">
-    <Value>Showing 0 to 0 of 0 entries</Value>
+    <Value>No records</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.DT.InfoFiltered">
     <Value>(filtered from _MAX_ total entries)</Value>
@@ -252,7 +252,7 @@ set @resources='
     <Value>,</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.DT.lengthMenu">
-    <Value>Show _MENU_ entries</Value>
+    <Value>Show _MENU_ items</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.DT.LoadingRecords">
     <Value>Loading...</Value>
@@ -292,7 +292,7 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Checkout.Addresses.Invalid">
     <Value>You have {0} invalid address(es)</Value>
-  </LocaleResource>  
+  </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Fields.LowStockActivity.Hint">
     <Value>Action to be taken when your current stock quantity falls below (reaches) the ''Minimum stock quantity''. Activation of the action will occur only after an order is placed.</Value>
   </LocaleResource>
@@ -310,10 +310,10 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Plugins">
     <Value></Value>
-  </LocaleResource>  
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Tax">
     <Value></Value>
-  </LocaleResource>  
+  </LocaleResource>
   <LocaleResource Name="Admin.Vendors.Display">
     <Value>Display</Value>
   </LocaleResource>
@@ -481,7 +481,7 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.Sitemap.Instructions">
     <Value><![CDATA[<p>These settings do not apply to sitemap.xml, only for your site map. You can configure generation for sitemap.xml on <a href="{0}">all settings page</a></p>]]></Value>
-  </LocaleResource> 
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.GooglePlusLink">
     <Value></Value>
   </LocaleResource>
@@ -502,11 +502,11 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="ScheduleTasks.Error">
     <Value>The "{0}" scheduled task failed with the "{1}" error (Task type: "{2}". Store name: "{3}". Task run address: "{4}").</Value>
-  </LocaleResource>    
+  </LocaleResource>
   <LocaleResource Name="ScheduleTasks.TimeoutError">
     <Value>A scheduled task canceled. Timeout expired.</Value>
   </LocaleResource>
-   <LocaleResource Name="Admin.Catalog.Categories.Fields.ShowOnHomePage">
+  <LocaleResource Name="Admin.Catalog.Categories.Fields.ShowOnHomePage">
     <Value></Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Categories.Fields.ShowOnHomePage.Hint">
@@ -539,7 +539,7 @@ set @resources='
   <LocaleResource Name="HomePage.Products">
     <Value></Value>
   </LocaleResource>
-   <LocaleResource Name="Admin.Catalog.Categories.Fields.ShowOnHomepage">
+  <LocaleResource Name="Admin.Catalog.Categories.Fields.ShowOnHomepage">
     <Value>Show on home page</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Categories.Fields.ShowOnHomepage.Hint">
@@ -596,7 +596,7 @@ set @resources='
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.EnableHtmlMinification.Hint">
     <Value>Allows you to minify HTML pages as well as compress them, thereby increasing the download speed. Please note that after applying this setting, you need to restart the application.</Value>
   </LocaleResource>
-    <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.BlockTitle.Minification">
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.BlockTitle.Minification">
     <Value>Minification</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.System.Warnings.ProxyConnection.Failed">
@@ -650,6 +650,303 @@ set @resources='
   <LocaleResource Name="Plugins.Shipping.UPS.Fields.SaturdayDeliveryEnabled.Hint">
     <Value>Check to get rates for Saturday Delivery options.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.System.Warnings.Errors">
+    <Value><![CDATA[The store has some error(s) or warning(s). Please find more information on the <a href="{0}">Warnings</a> page]]></Value>
+  </LocaleResource>
+  <LocaleResource Name="Account.Login.Fields.UserName">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Account.Login.Fields.Username">
+    <Value>Username</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Shipping.AllowPickUpInStore">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Shipping.AllowPickUpInStore.Hint">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Shipping.AllowPickupInStore">
+    <Value>"Pick Up in Store" enabled</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Shipping.AllowPickupInStore.Hint">
+    <Value>A value indicating whether "Pick Up in Store" option is enabled during checkout. Please ensure that you have at least one active pickup point provider.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Shipping.IgnoreAdditionalShippingChargeForPickUpInStore">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Shipping.IgnoreAdditionalShippingChargeForPickUpInStore.Hint">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Shipping.IgnoreAdditionalShippingChargeForPickupInStore">
+    <Value>Ignore additional shipping charge for pick up in store</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Shipping.IgnoreAdditionalShippingChargeForPickupInStore.Hint">
+    <Value>Check if you want ignore additional shipping charge for pick up in store.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.Fields.ManageInventoryMethod">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.Fields.ManageInventoryMethod.MultipleWarehouse">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.Fields.Name">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.Fields.OldPrice">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.Fields.Price">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.Fields.Published">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.Fields.SKU">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.Fields.StockQuantity">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.List.SearchCategory">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.List.SearchCategory.Hint">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.List.SearchManufacturer">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.List.SearchManufacturer.Hint">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.List.SearchProductName">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.BulkEdit.List.SearchProductName.Hint">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.BulkEdit">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.All">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.Display">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.Empty">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.First">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.ItemsPerPage">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.Last">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.MorePages">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.Next">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.Of">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.Page">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.Previous">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Pager.Refresh">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Vendors.VendorNotes.Fields.Note.Validation">
+    <Value>Vendor note can not be empty.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.AllSettings.Fields.Store">
+    <Value>Store</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.AllSettings.Fields.Store.Hint">
+    <Value>A store name in which this setting is applied.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Languages.Resources.Fields.Name.Hint">
+    <Value>Enter the locale resource name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Languages.Resources.Fields.Value.Hint">
+    <Value>Enter the locale resource value.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions.Fields.Name.Hint">
+    <Value>Enter the dimension name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions.Fields.SystemKeyword.Hint">
+    <Value>Enter the dimension system keyword.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions.Fields.Ratio.Hint">
+    <Value>Specify the dimension ratio.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Dimensions.Fields.DisplayOrder.Hint">
+    <Value>The display order of this dimension. 1 represents the top of the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Weights.Fields.Name.Hint">
+    <Value>Enter the weight name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Weights.Fields.SystemKeyword.Hint">
+    <Value>Enter the weight system keyword.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Weights.Fields.Ratio.Hint">
+    <Value>Specify the weight ratio.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Shipping.Measures.Weights.Fields.DisplayOrder.Hint">
+    <Value>The display order of this weight. 1 represents the top of the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.ContentManagement.Polls.Answers.Fields.Name.Hint">
+    <Value>Enter the poll answer name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.ContentManagement.Polls.Answers.Fields.DisplayOrder.Hint">
+    <Value>The display order of this poll answer. 1 represents the top of the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.AllSettings.Fields.Name.Hint">
+    <Value>Enter the setting name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.AllSettings.Fields.Value.Hint">
+    <Value>Enter the setting value.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Tax.Categories.Fields.Name.Hint">
+    <Value>Enter the tax category name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Tax.Categories.Fields.DisplayOrder.Hint">
+    <Value>The display order of this tax category. 1 represents the top of the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Category.Name.Hint">
+    <Value>Enter the template name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Category.DisplayOrder.Hint">
+    <Value>The display order of this template. 1 represents the top of the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Category.ViewPath.Hint">
+    <Value>Enter the template view path.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Manufacturer.Name.Hint">
+    <Value>Enter the template name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Manufacturer.DisplayOrder.Hint">
+    <Value>The display order of this template. 1 represents the top of the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Manufacturer.ViewPath.Hint">
+    <Value>Enter the template view path.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Product.Name.Hint">
+    <Value>Enter the template name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Product.DisplayOrder.Hint">
+    <Value>The display order of this template. 1 represents the top of the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Product.ViewPath.Hint">
+    <Value>Enter the template view path.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Product.IgnoredProductTypes.Hint">
+    <Value>Specify ignored product types for this template.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Topic.Name.Hint">
+    <Value>Enter the template name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Topic.DisplayOrder.Hint">
+    <Value>The display order of this template. 1 represents the top of the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Templates.Topic.ViewPath.Hint">
+    <Value>Enter the template view path.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Reviews.Fields.Rating.Good">
+    <Value>Good</Value>
+  </LocaleResource>
+  <LocaleResource Name="Reviews.Fields.Rating.NotBadNotExcellent">
+    <Value>Not bad but also not excellent</Value>
+  </LocaleResource>
+  <LocaleResource Name="Reviews.Fields.Rating.NotGood">
+    <Value>Not good</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.RedisEnabled">
+    <Value>Redis enabled</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.UseRedisToStoreDataProtectionKeys">
+    <Value>Use Redis to store Data Protection Keys</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.UseRedisForCaching">
+    <Value>Use Redis for Caching</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.UseRedisToStorePluginsInfo">
+    <Value>Use Redis to store Plugins Info</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.AzureBlobStorageEnabled">
+    <Value>Azure Blob Storage enabled</Value>
+  </LocaleResource>
+   <LocaleResource Name="Admin.System.SystemInfo.RedisEnabled.Hint">
+    <Value>Indicates whether Redis is enabled.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.UseRedisToStoreDataProtectionKeys.Hint">
+    <Value>Indicates whether Redis is used to store Data Protection Keys.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.UseRedisForCaching.Hint">
+    <Value>Indicates whether Redis is used for Caching.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.UseRedisToStorePluginsInfo.Hint">
+    <Value>Indicates whether Redis is used to store Plugins Info.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.AzureBlobStorageEnabled.Hint">
+    <Value>Indicates whether Azure Blob Storage is enabled.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.CurrentStaticCacheManager">
+	<Value>Static cache manager name</Value>
+  </LocaleResource>  
+  <LocaleResource Name="Admin.System.SystemInfo.CurrentStaticCacheManager.Hint">
+	<Value>Indicating the current static cache manager name.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Languages.Selector.Label">
+    <Value>Languages selector</Value>
+  </LocaleResource>
+  <LocaleResource Name="Tax.Selector.Label">
+    <Value>Tax selector</Value>
+  </LocaleResource>
+  <LocaleResource Name="Products.Specs.AttributeName">
+    <Value>Attribute name</Value>
+  </LocaleResource>
+  <LocaleResource Name="Products.Specs.AttributeValue">
+    <Value>Attribute value</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Customers.Customers.CustomerRolesManagingError">
+    <Value>Not enough rights to manage customer roles.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.DisplayTaxShippingInfoProductBoxes.Hint">
+    <Value>Check to display tax and shipping information in product boxes (catalog pages). This option is required in Germany.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.DisplayTaxShippingInfoFooter.Hint">
+    <Value>Check to display tax and shipping information in the footer. This option is required in Germany.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.DisplayTaxShippingInfoProductDetailsPage.Hint">
+    <Value>Check to display tax and shipping information on product details pages. This option is required in Germany.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.DisplayTaxShippingInfoOrderDetailsPage.Hint">
+    <Value>Check to display tax and shipping information on the order details page. This option is required in Germany.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.DisplayTaxShippingInfoShoppingCart.Hint">
+    <Value>Check to display tax and shipping information on the shopping cart page. This option is required in Germany.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.DisplayTaxShippingInfoWishlist.Hint">
+    <Value>Check to display tax and shipping information on the wishlist page. This option is required in Germany.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Plugins.Errors.UninstallDependsOn">
+    <Value>The following plugins depend on the "{0}" plugin and must be uninstalled beforehand: "{1}"</Value>
+  </LocaleResource>  
+  <LocaleResource Name="Admin.Plugins.Errors.InstallDependsOn">
+    <Value>The "{0}" plugin depends on the following plugins which must be installed beforehand: "{1}"</Value>
+  </LocaleResource>   
 </Language>'
 
 CREATE TABLE #LocaleStringResourceTmp
@@ -728,12 +1025,7 @@ SET [IncludeInFooterColumn1] = 0
 WHERE [SystemName] = 'VendorTermsOfService'
 GO
 
-UPDATE [Topic]
-SET [Title] = ISNULL([SystemName], '')
-WHERE [Title] IS NULL OR [Title] = ''
-GO
-
-ALTER TABLE [Topic] ALTER COLUMN [Title] nvarchar(max) NOT NULL
+ALTER TABLE [Topic] ALTER COLUMN [Title] nvarchar(max) NULL
 GO
 
 -- #3236
@@ -1869,3 +2161,495 @@ GO
 DELETE FROM [Setting]
 WHERE [Name] = N'upssettings.url'
 GO
+
+--new setting
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [Name] = N'squarepaymentsettings.refreshtoken')
+BEGIN
+    INSERT [Setting] ([Name], [Value], [StoreId])
+    VALUES (N'squarepaymentsettings.refreshtoken', N'00000000-0000-0000-0000-000000000000', 0)
+END
+GO
+
+--rename column
+IF EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[Order]') and OBJECTPROPERTY(object_id, N'IsUserTable') = 1)
+AND EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID(N'[Order]') and NAME='PickUpInStore')
+BEGIN
+    EXEC sp_RENAME '[Order].[PickUpInStore]', 'PickupInStore', 'COLUMN'
+END
+GO
+
+--update setting
+UPDATE [Setting]
+SET [Value] = '7'
+WHERE [Name] = 'adminareasettings.popupgridpagesize'
+GO
+
+--update setting
+UPDATE [Setting]
+SET [Value] = '7, 15, 20, 50, 100'
+WHERE [Name] = 'adminareasettings.gridpagesizes'
+GO
+
+--new column
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = object_id('[Picture]') AND NAME = 'VirtualPath')
+BEGIN
+	ALTER TABLE [Picture] ADD
+	VirtualPath nvarchar(MAX) NULL
+END
+GO
+
+--update datetime fields to change type
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ActivityLog' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_ActivityLog_CreatedOnUtc] ON [ActivityLog]
+	ALTER TABLE [ActivityLog] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+	CREATE NONCLUSTERED INDEX [IX_ActivityLog_CreatedOnUtc] ON [ActivityLog] ([CreatedOnUtc] DESC)
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Address' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_ActivityLog_CreatedOnUtc] ON [ActivityLog]
+	ALTER TABLE [Address] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+	CREATE NONCLUSTERED INDEX [IX_ActivityLog_CreatedOnUtc] ON [ActivityLog] ([CreatedOnUtc] DESC)
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Address' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Address] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'BackInStockSubscription' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [BackInStockSubscription] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'BlogComment' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [BlogComment] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'BlogPost' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [BlogPost] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Campaign' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Campaign] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Category' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Category] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Currency' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Currency] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Customer' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_Customer_CreatedOnUtc] ON [Customer]
+	ALTER TABLE [Customer] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+	CREATE NONCLUSTERED INDEX [IX_Customer_CreatedOnUtc] ON [Customer] ([CreatedOnUtc] DESC)
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'CustomerPassword' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [CustomerPassword] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DiscountUsageHistory' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [DiscountUsageHistory] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Forum' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Forum] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Group' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Group] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Post' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Post] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_PostVote' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_PostVote] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_PrivateMessage' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_PrivateMessage] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Subscription' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Subscription] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Topic' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Topic] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'GdprLog' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [GdprLog] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'GiftCard' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [GiftCard] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'GiftCardUsageHistory' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [GiftCardUsageHistory] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Log' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_Log_CreatedOnUtc] ON [Log]
+	ALTER TABLE [Log] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+	CREATE NONCLUSTERED INDEX [IX_Log_CreatedOnUtc] ON [Log] ([CreatedOnUtc] DESC)
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Manufacturer' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Manufacturer] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'News' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [News] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'NewsComment' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [NewsComment] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'NewsLetterSubscription' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [NewsLetterSubscription] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Order' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_Order_CreatedOnUtc] ON [Order]
+	ALTER TABLE [Order] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+	CREATE NONCLUSTERED INDEX [IX_Order_CreatedOnUtc] ON [Order] ([CreatedOnUtc] DESC)
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'OrderNote' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [OrderNote] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'PollVotingRecord' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [PollVotingRecord] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Product' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Product] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ProductReview' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ProductReview] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'QueuedEmail' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_QueuedEmail_CreatedOnUtc] ON [QueuedEmail]
+	ALTER TABLE [QueuedEmail] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+	CREATE NONCLUSTERED INDEX [IX_QueuedEmail_CreatedOnUtc] ON [QueuedEmail] ([CreatedOnUtc] DESC)
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'RecurringPayment' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [RecurringPayment] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'RecurringPaymentHistory' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [RecurringPaymentHistory] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ReturnRequest' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ReturnRequest] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'RewardPointsHistory' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [RewardPointsHistory] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Shipment' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Shipment] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ShoppingCartItem' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ShoppingCartItem] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'StockQuantityHistory' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [StockQuantityHistory] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'VendorNote' AND COLUMN_NAME = 'CreatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [VendorNote] ALTER column [CreatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'BlogPost' AND COLUMN_NAME = 'StartDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [BlogPost] ALTER column [StartDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'BlogPost' AND COLUMN_NAME = 'EndDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [BlogPost] ALTER column [EndDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Campaign' AND COLUMN_NAME = 'DontSendBeforeDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Campaign] ALTER column [DontSendBeforeDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Category' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Category] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Currency' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Currency] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Forum' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Forum] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Group' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Group] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Post' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Post] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Topic' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Topic] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Manufacturer' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Manufacturer] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Product' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Product] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ReturnRequest' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ReturnRequest] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ShoppingCartItem' AND COLUMN_NAME = 'UpdatedOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ShoppingCartItem] ALTER column [UpdatedOnUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Customer' AND COLUMN_NAME = 'CannotLoginUntilDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Customer] ALTER column [CannotLoginUntilDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Customer' AND COLUMN_NAME = 'LastLoginDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Customer] ALTER column [LastLoginDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Customer' AND COLUMN_NAME = 'LastActivityDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Customer] ALTER column [LastActivityDateUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Discount' AND COLUMN_NAME = 'StartDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Discount] ALTER column [StartDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Discount' AND COLUMN_NAME = 'EndDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Discount] ALTER column [EndDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Forum' AND COLUMN_NAME = 'LastPostTime' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Forum] ALTER column [LastPostTime] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Forums_Topic' AND COLUMN_NAME = 'LastPostTime' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Forums_Topic] ALTER column [LastPostTime] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'News' AND COLUMN_NAME = 'StartDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [News] ALTER column [StartDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'News' AND COLUMN_NAME = 'EndDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [News] ALTER column [EndDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Order' AND COLUMN_NAME = 'PaidDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Order] ALTER column [PaidDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'OrderItem' AND COLUMN_NAME = 'RentalStartDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [OrderItem] ALTER column [RentalStartDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'OrderItem' AND COLUMN_NAME = 'RentalEndDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [OrderItem] ALTER column [RentalEndDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Poll' AND COLUMN_NAME = 'StartDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Poll] ALTER column [StartDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Poll' AND COLUMN_NAME = 'EndDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Poll] ALTER column [EndDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Product' AND COLUMN_NAME = 'PreOrderAvailabilityStartDateTimeUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Product] ALTER column [PreOrderAvailabilityStartDateTimeUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Product' AND COLUMN_NAME = 'MarkAsNewStartDateTimeUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Product] ALTER column [MarkAsNewStartDateTimeUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Product' AND COLUMN_NAME = 'MarkAsNewEndDateTimeUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Product] ALTER column [MarkAsNewEndDateTimeUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Product' AND COLUMN_NAME = 'AvailableStartDateTimeUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_Product_PriceDatesEtc] ON [Product]
+	DROP INDEX [IX_Product_VisibleIndividually_Published_Deleted_Extended] ON [Product]
+	ALTER TABLE [Product] ALTER column [AvailableStartDateTimeUtc] [datetime2](7) NULL
+	CREATE NONCLUSTERED INDEX [IX_Product_PriceDatesEtc] ON [Product]  ([Price] ASC, [AvailableStartDateTimeUtc] ASC, [AvailableEndDateTimeUtc] ASC, [Published] ASC, [Deleted] ASC)
+	CREATE NONCLUSTERED INDEX [IX_Product_VisibleIndividually_Published_Deleted_Extended] ON [Product] ([VisibleIndividually],[Published],[Deleted]) INCLUDE ([Id],[AvailableStartDateTimeUtc],[AvailableEndDateTimeUtc])
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Product' AND COLUMN_NAME = 'AvailableEndDateTimeUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_Product_PriceDatesEtc] ON [Product]
+	DROP INDEX [IX_Product_VisibleIndividually_Published_Deleted_Extended] ON [Product]
+	ALTER TABLE [Product] ALTER column [AvailableEndDateTimeUtc] [datetime2](7) NULL
+	CREATE NONCLUSTERED INDEX [IX_Product_PriceDatesEtc] ON [Product]  ([Price] ASC, [AvailableStartDateTimeUtc] ASC, [AvailableEndDateTimeUtc] ASC, [Published] ASC, [Deleted] ASC)
+	CREATE NONCLUSTERED INDEX [IX_Product_VisibleIndividually_Published_Deleted_Extended] ON [Product] ([VisibleIndividually],[Published],[Deleted]) INCLUDE ([Id],[AvailableStartDateTimeUtc],[AvailableEndDateTimeUtc])
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'QueuedEmail' AND COLUMN_NAME = 'DontSendBeforeDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_QueuedEmail_SentOnUtc_DontSendBeforeDateUtc_Extended] ON [QueuedEmail]
+	ALTER TABLE [QueuedEmail] ALTER column [DontSendBeforeDateUtc] [datetime2](7) NULL
+	CREATE NONCLUSTERED INDEX [IX_QueuedEmail_SentOnUtc_DontSendBeforeDateUtc_Extended] ON [QueuedEmail] ([SentOnUtc], [DontSendBeforeDateUtc]) INCLUDE ([SentTries])
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'QueuedEmail' AND COLUMN_NAME = 'SentOnUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	DROP INDEX [IX_QueuedEmail_SentOnUtc_DontSendBeforeDateUtc_Extended] ON [QueuedEmail]
+	ALTER TABLE [QueuedEmail] ALTER column [SentOnUtc] [datetime2](7) NULL
+	CREATE NONCLUSTERED INDEX [IX_QueuedEmail_SentOnUtc_DontSendBeforeDateUtc_Extended] ON [QueuedEmail] ([SentOnUtc], [DontSendBeforeDateUtc]) INCLUDE ([SentTries])
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'RecurringPayment' AND COLUMN_NAME = 'StartDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [RecurringPayment] ALTER column [StartDateUtc] [datetime2](7) NOT NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'RewardPointsHistory' AND COLUMN_NAME = 'EndDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [RewardPointsHistory] ALTER column [EndDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ScheduleTask' AND COLUMN_NAME = 'LastStartUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ScheduleTask] ALTER column [LastStartUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ScheduleTask' AND COLUMN_NAME = 'LastEndUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ScheduleTask] ALTER column [LastEndUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ScheduleTask' AND COLUMN_NAME = 'LastSuccessUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ScheduleTask] ALTER column [LastSuccessUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Shipment' AND COLUMN_NAME = 'ShippedDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Shipment] ALTER column [ShippedDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Shipment' AND COLUMN_NAME = 'DeliveryDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [Shipment] ALTER column [DeliveryDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ShoppingCartItem' AND COLUMN_NAME = 'RentalStartDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ShoppingCartItem] ALTER column [RentalStartDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ShoppingCartItem' AND COLUMN_NAME = 'RentalEndDateUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [ShoppingCartItem] ALTER column [RentalEndDateUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TierPrice' AND COLUMN_NAME = 'StartDateTimeUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [TierPrice] ALTER column [StartDateTimeUtc] [datetime2](7) NULL
+END
+GO
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TierPrice' AND COLUMN_NAME = 'EndDateTimeUtc' and DATA_TYPE = 'datetime')
+BEGIN
+	ALTER TABLE [TierPrice] ALTER column [EndDateTimeUtc] [datetime2](7) NULL
+END
+GO	

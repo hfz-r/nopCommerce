@@ -73,10 +73,6 @@
                         @T("Admin.Common.Import")
                     </button>
                 }
-                <a asp-action="BulkEdit" class="btn bg-yellow">
-                    <i class="fa fa-edit"></i>
-                    @T("Admin.Common.BulkEdit")
-                </a>
                 <button type="button" id="delete-selected" class="btn bg-red">
                     <i class="fa fa-trash-o"></i>
                     @T("Admin.Common.Delete.Selected")
@@ -216,7 +212,7 @@
                             {
                                 new FilterParameter(nameof(Model.SearchProductName)),
                                 new FilterParameter(nameof(Model.SearchCategoryId)),
-                                new FilterParameter(nameof(Model.SearchIncludeSubCategories)),
+                                new FilterParameter(nameof(Model.SearchIncludeSubCategories), typeof(bool)),
                                 new FilterParameter(nameof(Model.SearchManufacturerId)),
                                 new FilterParameter(nameof(Model.SearchStoreId)),
                                 new FilterParameter(nameof(Model.SearchWarehouseId)),
@@ -230,7 +226,7 @@
                                 {
                                     IsMasterCheckBox = true,
                                     Render = new RenderCheckBox("checkbox_products"),
-                                    ClassName =  StyleColumn.CenterAll,
+                                    ClassName =  NopColumnClassDefaults.CenterAll,
                                     Width = "50",
                                 },
                                 new ColumnProperty(nameof(ProductModel.PictureThumbnailUrl))
@@ -269,13 +265,14 @@
                                 {
                                     Title = T("Admin.Catalog.Products.Fields.Published").Text,
                                     Width = "100",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
                                     Render = new RenderBoolean()
                                 },
                                 new ColumnProperty(nameof(ProductModel.Id))
                                 {
                                     Title = T("Admin.Common.Edit").Text,
                                     Width = "100",
-                                    ClassName =  StyleColumn.ButtonStyle,
+                                    ClassName =  NopColumnClassDefaults.Button,
                                     Render = new RenderButtonEdit(new DataUrl("Edit"))
                                 }
                             }
@@ -294,15 +291,15 @@
                                     addAntiForgeryToken(postData);
                                     $.ajax({
                                         cache: false,
-                                        type: 'POST',
+                                        type: "POST",
                                         url: "@(Url.Action("DeleteSelected", "Product"))",
                                         data: postData,
-                                        complete: function (data) {
-                                            $('#search-products').DataTable().ajax.reload();
-                                        },
-                                        error: function (xhr, ajaxOptions, thrownError) {
-                                            $('#deleteSelectedFailed-info').html(thrownError);
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            $('#deleteSelectedFailed-info').text(errorThrown);
                                             $('#deleteSelectedFailed').click();
+                                        },
+                                        complete: function (jqXHR, textStatus) {
+                                            updateTable('#products-grid');
                                         }
                                     });
                                     $('#delete-selected-action-confirmation').modal('toggle');
@@ -384,6 +381,7 @@
             var ids = selectedIds.join(",");
             $('#export-xml-selected-form #selectedIds').val(ids);
             $('#export-xml-selected-form').submit();
+            updateTable('#products-grid');
             return false;
         });
     });
@@ -401,6 +399,7 @@
                 var ids = selectedIds.join(",");
                 $('#export-excel-selected-form #selectedIds').val(ids);
                 $('#export-excel-selected-form').submit();
+                updateTable('#products-grid');
                 return false;
             });
         });

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Nop.Core;
@@ -444,9 +445,11 @@ namespace Nop.Services.Installation
             var pattern = $"*.{NopInstallationDefaults.LocalizationResourcesFileExtension}";
             foreach (var filePath in _fileProvider.EnumerateFiles(directoryPath, pattern))
             {
-                var localesXml = _fileProvider.ReadAllText(filePath, Encoding.UTF8);
                 var localizationService = EngineContext.Current.Resolve<ILocalizationService>();
-                localizationService.ImportResourcesFromXml(language, localesXml);
+                using (var streamReader = new StreamReader(filePath))
+                {
+                    localizationService.ImportResourcesFromXml(language, streamReader);
+                }
             }
         }
 
@@ -4574,7 +4577,7 @@ namespace Nop.Services.Installation
                 ShippingAddress = (Address)firstCustomer.ShippingAddress.Clone(),
                 ShippingStatus = ShippingStatus.NotYetShipped,
                 ShippingMethod = "Ground",
-                PickUpInStore = false,
+                PickupInStore = false,
                 ShippingRateComputationMethodSystemName = "Shipping.FixedByWeightByTotal",
                 CustomValuesXml = string.Empty,
                 VatNumber = string.Empty,
@@ -4740,7 +4743,7 @@ namespace Nop.Services.Installation
                 ShippingAddress = (Address)secondCustomer.ShippingAddress.Clone(),
                 ShippingStatus = ShippingStatus.NotYetShipped,
                 ShippingMethod = "Next Day Air",
-                PickUpInStore = false,
+                PickupInStore = false,
                 ShippingRateComputationMethodSystemName = "Shipping.FixedByWeightByTotal",
                 CustomValuesXml = string.Empty,
                 VatNumber = string.Empty,
@@ -4858,7 +4861,7 @@ namespace Nop.Services.Installation
                 ShippingAddress = null,
                 ShippingStatus = ShippingStatus.ShippingNotRequired,
                 ShippingMethod = string.Empty,
-                PickUpInStore = false,
+                PickupInStore = false,
                 ShippingRateComputationMethodSystemName = string.Empty,
                 CustomValuesXml = string.Empty,
                 VatNumber = string.Empty,
@@ -5001,7 +5004,7 @@ namespace Nop.Services.Installation
                 ShippingAddress = (Address)fourthCustomer.ShippingAddress.Clone(),
                 ShippingStatus = ShippingStatus.Shipped,
                 ShippingMethod = "Pickup in store",
-                PickUpInStore = true,
+                PickupInStore = true,
                 PickupAddress = (Address)fourthCustomer.ShippingAddress.Clone(),
                 ShippingRateComputationMethodSystemName = "Pickup.PickupInStore",
                 CustomValuesXml = string.Empty,
@@ -5211,7 +5214,7 @@ namespace Nop.Services.Installation
                 ShippingAddress = (Address)fifthCustomer.ShippingAddress.Clone(),
                 ShippingStatus = ShippingStatus.Delivered,
                 ShippingMethod = "Ground",
-                PickUpInStore = false,
+                PickupInStore = false,
                 ShippingRateComputationMethodSystemName = "Shipping.FixedByWeightByTotal",
                 CustomValuesXml = string.Empty,
                 VatNumber = string.Empty,
@@ -5826,7 +5829,7 @@ namespace Nop.Services.Installation
                     IsPasswordProtected = false,
                     DisplayOrder = 1,
                     Published = true,
-                    Title = "Checkout as guest or register",
+                    Title = string.Empty,
                     Body =
                         "<p><strong>Register and save time!</strong><br />Register with us for future convenience:</p><ul><li>Fast and easy check out</li><li>Easy access to your order history and status</li></ul>",
                     TopicTemplateId = defaultTopicTemplate.Id
@@ -5850,7 +5853,7 @@ namespace Nop.Services.Installation
                     IsPasswordProtected = false,
                     DisplayOrder = 1,
                     Published = true,
-                    Title = "Contact Us",
+                    Title = string.Empty,
                     Body = "<p>Put your contact information here. You can edit this in the admin site.</p>",
                     TopicTemplateId = defaultTopicTemplate.Id
                 },
@@ -5908,7 +5911,7 @@ namespace Nop.Services.Installation
                     IsPasswordProtected = false,
                     DisplayOrder = 1,
                     Published = true,
-                    Title = "Page not found",
+                    Title = string.Empty,
                     Body =
                         "<p><strong>The page you requested was not found, and we have a fine guess why.</strong></p><ul><li>If you typed the URL directly, please make sure the spelling is correct.</li><li>The page no longer exists. In this case, we profusely apologize for the inconvenience and for any damage this may cause.</li></ul>",
                     TopicTemplateId = defaultTopicTemplate.Id
@@ -5933,7 +5936,7 @@ namespace Nop.Services.Installation
                     IsPasswordProtected = false,
                     DisplayOrder = 1,
                     Published = true,
-                    Title = "Apply vendor instructions",
+                    Title = string.Empty,
                     Body = "<p>Put your apply vendor instructions here. You can edit this in the admin site.</p>",
                     TopicTemplateId = defaultTopicTemplate.Id
                 },
@@ -6105,8 +6108,8 @@ namespace Nop.Services.Installation
             settingService.SaveSetting(new AdminAreaSettings
             {
                 DefaultGridPageSize = 15,
-                PopupGridPageSize = 10,
-                GridPageSizes = "10, 15, 20, 50, 100",
+                PopupGridPageSize = 7,
+                GridPageSizes = "7, 15, 20, 50, 100",
                 RichEditorAdditionalSettings = null,
                 RichEditorAllowJavaScript = false,
                 RichEditorAllowStyleTag = false,
@@ -6150,7 +6153,7 @@ namespace Nop.Services.Installation
                 ShowCategoryProductNumberIncludingSubcategories = false,
                 CategoryBreadcrumbEnabled = true,
                 ShowShareButton = true,
-                PageShareCode = "<!-- AddThis Button BEGIN --><div class=\"addthis_toolbox addthis_default_style \"><a class=\"addthis_button_preferred_1\"></a><a class=\"addthis_button_preferred_2\"></a><a class=\"addthis_button_preferred_3\"></a><a class=\"addthis_button_preferred_4\"></a><a class=\"addthis_button_compact\"></a><a class=\"addthis_counter addthis_bubble_style\"></a></div><script src=\"http://s7.addcom/js/250/addthis_widget.js#pubid=nopsolutions\"></script><!-- AddThis Button END -->",
+                PageShareCode = "<!-- AddThis Button BEGIN --><div class=\"addthis_toolbox addthis_default_style \"><a class=\"addthis_button_preferred_1\"></a><a class=\"addthis_button_preferred_2\"></a><a class=\"addthis_button_preferred_3\"></a><a class=\"addthis_button_preferred_4\"></a><a class=\"addthis_button_compact\"></a><a class=\"addthis_counter addthis_bubble_style\"></a></div><script src=\"http://s7.addthis.com/js/250/addthis_widget.js#pubid=nopsolutions\"></script><!-- AddThis Button END -->",
                 ProductReviewsMustBeApproved = false,
                 DefaultProductRatingValue = 5,
                 AllowAnonymousUsersToReviewProduct = false,
@@ -6468,9 +6471,9 @@ namespace Nop.Services.Installation
                 ActiveShippingRateComputationMethodSystemNames = new List<string> { "Shipping.FixedByWeightByTotal" },
                 ActivePickupPointProviderSystemNames = new List<string> { "Pickup.PickupInStore" },
                 ShipToSameAddress = true,
-                AllowPickUpInStore = true,
+                AllowPickupInStore = true,
                 DisplayPickupPointsOnMap = false,
-                IgnoreAdditionalShippingChargeForPickUpInStore = true,
+                IgnoreAdditionalShippingChargeForPickupInStore = true,
                 UseWarehouseLocation = false,
                 NotifyCustomerAboutShippingFromMultipleLocations = false,
                 FreeShippingOverXEnabled = false,

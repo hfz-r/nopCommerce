@@ -19,13 +19,14 @@
             new ColumnProperty(nameof(DeliveryDateModel.DisplayOrder))
             {
                 Title = T("Admin.Configuration.Shipping.DeliveryDates.Fields.DisplayOrder").Text,
-                Width = "150"
+                Width = "150",
+                ClassName =  NopColumnClassDefaults.CenterAll
             },
             new ColumnProperty(nameof(DeliveryDateModel.Id))
             {
                 Title = T("Admin.Common.Edit").Text,
                 Width = "100",
-                ClassName =  StyleColumn.ButtonStyle,
+                ClassName =  NopColumnClassDefaults.Button,
                 Render = new RenderButtonEdit(new DataUrl("EditDeliveryDate"))
             }
         }

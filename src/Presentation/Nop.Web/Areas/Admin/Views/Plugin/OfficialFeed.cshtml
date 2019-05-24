@@ -123,7 +123,7 @@
                                 {
                                     Title = T("Admin.Configuration.Plugins.OfficialFeed.Download").Text,
                                     Width = "150",
-                                    ClassName =  StyleColumn.ButtonStyle,
+                                    ClassName =  NopColumnClassDefaults.Button,
                                     Render = new RenderCustom("renderColumnUrl")
                                 },
                                 new ColumnProperty(nameof(OfficialFeedPluginModel.CategoryName))
@@ -152,7 +152,7 @@
                             $(document).ready(function () {
                                 $('#btnRefresh').click(function () {
                                     //refresh grid
-                                    $('#plugins-grid').DataTable().ajax.reload();
+                                    updateTable('#plugins-grid');
                                     //return false to don't reload a page
                                     return false;
                                 });

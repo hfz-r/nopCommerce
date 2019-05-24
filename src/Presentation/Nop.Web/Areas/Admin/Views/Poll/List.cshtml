@@ -91,39 +91,40 @@
                             new ColumnProperty(nameof(PollModel.DisplayOrder))
                             {
                                 Title = T("Admin.ContentManagement.Polls.Fields.DisplayOrder").Text,
-                                Width = "100"
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.CenterAll
                             },
                             new ColumnProperty(nameof(PollModel.Published))
                             {
                                 Title = T("Admin.ContentManagement.Polls.Fields.Published").Text,
                                 Width = "100",
-                                ClassName =  StyleColumn.CenterAll,
+                                ClassName =  NopColumnClassDefaults.CenterAll,
                                 Render = new RenderBoolean()
                             },
                             new ColumnProperty(nameof(PollModel.ShowOnHomepage))
                             {
                                 Title = T("Admin.ContentManagement.Polls.Fields.ShowOnHomepage").Text,
                                 Width = "100",
-                                ClassName =  StyleColumn.CenterAll,
+                                ClassName =  NopColumnClassDefaults.CenterAll,
                                 Render = new RenderBoolean()
                             },
                             new ColumnProperty(nameof(PollModel.StartDateUtc))
                             {
                                 Title = T("Admin.ContentManagement.Polls.Fields.StartDate").Text,
-                                Width = "200",
+                                Width = "150",
                                 Render = new RenderDate()
                             },
                             new ColumnProperty(nameof(PollModel.EndDateUtc))
                             {
                                 Title = T("Admin.ContentManagement.Polls.Fields.EndDate").Text,
-                                Width = "200",
+                                Width = "150",
                                 Render = new RenderDate()
                             },
                             new ColumnProperty(nameof(PollModel.Id))
                             {
                                 Title = T("Admin.Common.Edit").Text,
                                 Width = "100",
-                                ClassName =  StyleColumn.ButtonStyle,
+                                ClassName =  NopColumnClassDefaults.Button,
                                 Render = new RenderButtonEdit(new DataUrl("Edit"))
                             }
                         }

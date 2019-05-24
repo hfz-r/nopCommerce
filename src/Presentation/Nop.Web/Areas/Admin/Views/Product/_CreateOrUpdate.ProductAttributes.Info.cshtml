@@ -7,13 +7,9 @@
             @await Html.PartialAsync("Table", new DataTablesModel
             {
                 Name = "productattributemappings-grid",
-                UrlRead = new DataUrl("ProductAttributeMappingList", "Product", null),
+                UrlRead = new DataUrl("ProductAttributeMappingList", "Product", new RouteValueDictionary { [nameof(Model.ProductAttributeMappingSearchModel.ProductId)] = Model.ProductAttributeMappingSearchModel.ProductId }),
                 Length = Model.ProductPictureSearchModel.PageSize,
                 LengthMenu = Model.ProductPictureSearchModel.AvailablePageSizes,
-                Filters = new List<FilterParameter>
-                {
-                    new FilterParameter(nameof(Model.ProductAttributeMappingSearchModel.ProductId), Model.Id)
-                },
                 ColumnCollection = new List<ColumnProperty>
                 {
                     new ColumnProperty(nameof(ProductAttributeMappingModel.ProductAttribute))
@@ -30,7 +26,7 @@
                     {
                         Title = T("Admin.Catalog.Products.ProductAttributes.Attributes.Fields.IsRequired").Text,
                         Width = "100",
-                        ClassName = StyleColumn.CenterAll,
+                        ClassName = NopColumnClassDefaults.CenterAll,
                         Render = new RenderBoolean()
                     },
                     new ColumnProperty(nameof(ProductAttributeMappingModel.AttributeControlType))
@@ -41,27 +37,28 @@
                     new ColumnProperty(nameof(ProductAttributeMappingModel.DisplayOrder))
                     {
                         Title = T("Admin.Catalog.Products.ProductAttributes.Attributes.Fields.DisplayOrder").Text,
-                        Width = "150"
+                        Width = "150",
+                        ClassName =  NopColumnClassDefaults.CenterAll
                     },
                     new ColumnProperty(nameof(ProductAttributeMappingModel.ValidationRulesString))
                     {
                         Title = T("Admin.Catalog.Products.ProductAttributes.Attributes.ValidationRules").Text,
                         Width = "150",
-                        ClassName = StyleColumn.CenterAll,
+                        ClassName = NopColumnClassDefaults.CenterAll,
                         Encode = false
                     },
                     new ColumnProperty(nameof(ProductAttributeMappingModel.ConditionString))
                     {
                         Title = T("Admin.Catalog.Products.ProductAttributes.Attributes.Condition").Text,
                         Width = "150",
-                        ClassName = StyleColumn.CenterAll,
+                        ClassName = NopColumnClassDefaults.CenterAll,
                         Encode = false
                     },
                     new ColumnProperty(nameof(ProductAttributeMappingModel.Id))
                     {
                         Title = T("Admin.Common.Edit").Text,
                         Width = "100",
-                        ClassName =  StyleColumn.ButtonStyle,
+                        ClassName =  NopColumnClassDefaults.Button,
                         Render = new RenderButtonEdit(new DataUrl("~/Admin/Product/ProductAttributeMappingEdit/"))
                     }
                 }
