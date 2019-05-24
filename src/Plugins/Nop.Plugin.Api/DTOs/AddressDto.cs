@@ -1,13 +1,10 @@
 ﻿using System;
-using FluentValidation.Attributes;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.DTOs.Base;
-using Nop.Plugin.Api.Validators;
 
 namespace Nop.Plugin.Api.DTOs
 {
     [JsonObject(Title = "address")]
-    [Validator(typeof(AddressDtoValidator))]
     public class AddressDto : BaseDto
     {
         /// <summary>

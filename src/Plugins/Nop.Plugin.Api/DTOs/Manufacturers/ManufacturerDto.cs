@@ -1,16 +1,13 @@
-﻿using FluentValidation.Attributes;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Nop.Plugin.Api.DTOs.Base;
 using Nop.Plugin.Api.DTOs.Images;
 using Nop.Plugin.Api.DTOs.Languages;
-using Nop.Plugin.Api.Validators;
 using System;
 using System.Collections.Generic;
 
 namespace Nop.Plugin.Api.DTOs.Manufacturers
 {
     [JsonObject(Title = "manufacturer")]
-    [Validator(typeof(ManufacturerDtoValidator))]
     public class ManufacturerDto : BaseDto
     {
         private ImageDto _imageDto;

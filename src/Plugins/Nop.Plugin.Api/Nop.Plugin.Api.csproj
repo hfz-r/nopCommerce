@@ -60,14 +60,14 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="8.0.0" />
+        <PackageReference Include="AutoMapper" Version="8.1.0" />
         <PackageReference Include="IdentityServer4" Version="2.3.2" />
         <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
         <PackageReference Include="IdentityServer4.EntityFramework" Version="2.3.2" />
         <PackageReference Include="IdentityServer4.EntityFramework.Storage" Version="2.3.1" />
         <PackageReference Include="IdentityServer4.Storage" Version="2.3.1" />
         <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.2.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
