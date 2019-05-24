@@ -4,7 +4,6 @@ using Nop.Services.Plugins;
 namespace Nop.Plugin.Api.Attributes
 {
     using Microsoft.AspNetCore.Authorization;
-    using Core.Plugins;
 
     // We need the ApiAuthorize attribute because when the api plugin assembly is loaded in memory by PluginManager 
     // all of its attributes are being initialized by the .NetFramework.

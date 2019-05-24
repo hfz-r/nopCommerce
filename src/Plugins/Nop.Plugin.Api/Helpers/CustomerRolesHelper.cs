@@ -23,7 +23,7 @@ namespace Nop.Plugin.Api.Helpers
         {
             // This is needed because the caching messeup the entity framework context
             // and when you try to send something TO the database it throws an exeption.
-            _cacheManager.RemoveByPattern(CUSTOMERROLES_ALL_KEY);
+            _cacheManager.RemoveByPrefix(CUSTOMERROLES_ALL_KEY);
 
             var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
             var newCustomerRoles = new List<CustomerRole>();

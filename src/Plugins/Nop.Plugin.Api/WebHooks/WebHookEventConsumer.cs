@@ -373,7 +373,7 @@ namespace Nop.Plugin.Api.WebHooks
 
         public void HandleEvent(EntityDeletedEvent<NewsLetterSubscription> eventMessage)
         {
-            _cacheManager.RemoveByPattern(Configurations.NEWSLETTER_SUBSCRIBERS_KEY);
+            _cacheManager.RemoveByPrefix(Configurations.NEWSLETTER_SUBSCRIBERS_KEY);
 
             NewsLetterSubscriptionDto newsLetterSubscriptionDto = eventMessage.Entity.ToDto();
 
@@ -387,7 +387,7 @@ namespace Nop.Plugin.Api.WebHooks
 
         public void HandleEvent(EntityInsertedEvent<NewsLetterSubscription> eventMessage)
         {
-            _cacheManager.RemoveByPattern(Configurations.NEWSLETTER_SUBSCRIBERS_KEY);
+            _cacheManager.RemoveByPrefix(Configurations.NEWSLETTER_SUBSCRIBERS_KEY);
 
             NewsLetterSubscriptionDto newsLetterSubscriptionDto = eventMessage.Entity.ToDto();
 
@@ -401,7 +401,7 @@ namespace Nop.Plugin.Api.WebHooks
 
         public void HandleEvent(EntityUpdatedEvent<NewsLetterSubscription> eventMessage)
         {
-            _cacheManager.RemoveByPattern(Configurations.NEWSLETTER_SUBSCRIBERS_KEY);
+            _cacheManager.RemoveByPrefix(Configurations.NEWSLETTER_SUBSCRIBERS_KEY);
 
             NewsLetterSubscriptionDto newsLetterSubscriptionDto = eventMessage.Entity.ToDto();
 

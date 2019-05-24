@@ -74,6 +74,11 @@ namespace Nop.Plugin.Api.Data
             return this.Database.GenerateCreateScript();
         }
 
+        public IQueryable<TQuery> QueryFromSql<TQuery>(string sql, params object[] parameters) where TQuery : class
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Creates a LINQ query for the query type based on a raw SQL query
         /// </summary>

@@ -1,11 +1,12 @@
-﻿namespace Nop.Plugin.Api
+﻿using Nop.Services.Plugins;
+
+namespace Nop.Plugin.Api
 {
     using IdentityServer4.EntityFramework.DbContexts;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.EntityFrameworkCore.Migrations;
     using Nop.Core;
     using Nop.Core.Infrastructure;
-    using Nop.Core.Plugins;
     using Nop.Plugin.Api.Data;
     using Nop.Plugin.Api.Domain;
     using Nop.Plugin.Api.Helpers;
